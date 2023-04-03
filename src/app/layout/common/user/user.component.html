@@ -1,0 +1,102 @@
+<!-- Button -->
+<button mat-icon-button [matMenuTriggerFor]="userActions" class="user-dropdown">
+    <img
+        class="user-avatar"
+        *ngIf="showAvatar && user.avatar"
+        [src]="user.avatar"
+    />
+    <span class="user-name">{{ user.name }}</span>
+    <mat-icon
+        class="chevron-icon"
+        [svgIcon]="'heroicons_outline:chevron-down'"
+    ></mat-icon>
+</button>
+
+<mat-menu [xPosition]="'before'" #userActions="matMenu">
+    <button mat-menu-item (click)="setProfile()">
+        <mat-icon [svgIcon]="'heroicons_outline:user-circle'"></mat-icon>
+        <span>Profile</span>
+    </button>
+    <!-- <button mat-menu-item>
+        <mat-icon [svgIcon]="'heroicons_outline:cog'"></mat-icon>
+        <span>Settings</span>
+    </button> -->
+    <button mat-menu-item (click)="showhelpandsupport()">
+        <mat-icon [svgIcon]="'heroicons_outline:chat'"></mat-icon>
+        <span>Help and Support</span>
+    </button>
+    <!-- <button
+        mat-menu-item
+        [matMenuTriggerFor]="userStatus">
+        <mat-icon [svgIcon]="'heroicons_outline:dots-circle-horizontal'"></mat-icon>
+        <span>Status</span>
+    </button> -->
+    <mat-divider class="my-2"></mat-divider>
+    <button mat-menu-item (click)="signOut()">
+        <mat-icon [svgIcon]="'heroicons_outline:logout'"></mat-icon>
+        <span>Sign out</span>
+    </button>
+</mat-menu>
+
+<mat-menu class="user-status-menu" #userStatus="matMenu">
+    <button mat-menu-item (click)="updateUserStatus('online')">
+        <span class="w-4 h-4 mr-3 rounded-full bg-green-500"></span>
+        <span>Online</span>
+    </button>
+    <button mat-menu-item (click)="updateUserStatus('away')">
+        <span class="w-4 h-4 mr-3 rounded-full bg-amber-500"></span>
+        <span>Away</span>
+    </button>
+    <button mat-menu-item (click)="updateUserStatus('busy')">
+        <span class="w-4 h-4 mr-3 rounded-full bg-red-500"></span>
+        <span>Busy</span>
+    </button>
+    <button mat-menu-item (click)="updateUserStatus('not-visible')">
+        <span class="w-4 h-4 mr-3 rounded-full bg-gray-400"></span>
+        <span>Invisible</span>
+    </button>
+</mat-menu>
+<style>
+    .helpAndSupport{
+        text-align: left;
+        padding: 20px;
+        line-height: 35px;
+    }
+    .helpAndSupport h2{
+        font-size: 20px;
+        text-align: center;
+        font-weight: 600;
+        margin-bottom: 20px;
+    }
+    .okText{
+        text-align: right;
+    }
+</style>
+<ng-template #helpAndSupport>
+    <div class="dialog-content-wrapper">
+        <div class="helpAndSupport">
+            <div class="modal-header">
+                <h2>Help and Support</h2>
+                <div>
+                    <p>Email Support:
+                    <b></b></p>
+
+                    <P>Call Support:
+                    <b></b></P>
+                </div>
+            </div>
+            <div class="modal-body okText">
+                <div class="form-action justify-center">
+                    <button
+                        mat-flat-button
+                        color="primary"
+                        class="next-btn"
+                        (click)="cancelPopup()"
+                    >
+                        Ok
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>        
+</ng-template>

@@ -1,0 +1,21 @@
+<svg id="Component_9_21" data-name="Component 9 – 21" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="26" height="26" viewBox="0 0 26 26">
+  <defs>
+    <clipPath id="clip-path">
+      <rect id="Rectangle_494" data-name="Rectangle 494" width="26" height="26" transform="translate(1223 292)" fill="#fff" stroke="#707070" stroke-width="1"/>
+    </clipPath>
+  </defs>
+  <g id="Mask_Group_7" data-name="Mask Group 7" transform="translate(-1223 -292)" clip-path="url(#clip-path)">
+    <g id="Group_1875" data-name="Group 1875">
+      <g id="Group_1824" data-name="Group 1824" transform="translate(1224.928 295.571)">
+        <g id="Group_1823" data-name="Group 1823">
+          <path id="Path_1289" data-name="Path 1289" d="M18.071,43.566a.786.786,0,0,0-.786.786v7.857a.786.786,0,0,1-.786.786H2.357a.786.786,0,0,1-.786-.786V36.494a.786.786,0,0,1,.786-.786h9.429a.786.786,0,1,0,0-1.571H2.357A2.357,2.357,0,0,0,0,36.494V52.208a2.357,2.357,0,0,0,2.357,2.357H16.5a2.357,2.357,0,0,0,2.357-2.357V44.351A.786.786,0,0,0,18.071,43.566Z" transform="translate(0 -34.137)" fill="#7795b7"/>
+        </g>
+      </g>
+      <g id="Group_1826" data-name="Group 1826" transform="translate(1229.643 294)">
+        <g id="Group_1825" data-name="Group 1825" transform="translate(0 0)">
+          <path id="Path_1290" data-name="Path 1290" d="M118.813.885a3.007,3.007,0,0,0-4.254,0L104.21,11.234a.794.794,0,0,0-.189.307l-1.571,4.714a.786.786,0,0,0,.745,1.034.8.8,0,0,0,.248-.04l4.714-1.571a.786.786,0,0,0,.307-.19L118.813,5.138A3.008,3.008,0,0,0,118.813.885Z" transform="translate(-102.409 -0.004)" fill="#7795b7"/>
+        </g>
+      </g>
+    </g>
+  </g>
+</svg>

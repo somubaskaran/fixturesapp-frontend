@@ -1,0 +1,24 @@
+.play-match-body {
+    width: 100%;
+    display: block;
+}
+.play-match-split {
+    width: 50%;
+    float: left;
+    display: block;
+    padding: 5%;
+}
+.subscract, .addition{
+    width: 40px;
+    font-size: 30px;
+}
+.finishMatch {
+    padding: 10px 25px;
+    background: chocolate;
+    float: right;
+}
+.back {
+    padding: 10px 25px;
+    background: #000;
+    color: #fff;
+}

@@ -1,0 +1,38 @@
+<div class="play-match-body">
+    <div>
+        <button class="back" (click)="backtoTour()">Back</button>
+    </div>
+    <div class="play-match-split">
+        <mat-card>
+            <div *ngIf="match_id_A">
+                {{match_id_A.player_name}}
+            </div>
+        </mat-card>
+        <div>
+            <div>Score: {{team_score_A}}</div>
+            <button class="subscract" (click)="removePoint(match_id_A)">-</button>
+            <button class="addition" (click)="addPoint(match_id_A)">+</button>
+        </div>
+        <div>
+            <mat-slide-toggle (change)="onStatusOne($event)" [(ngModel)]="Status_team_A">Status</mat-slide-toggle>
+        </div>
+    </div>
+    <div class="play-match-split">
+        <mat-card>
+            <div *ngIf="match_id_B">
+                {{match_id_B.player_name}}
+            </div>
+        </mat-card>
+        <div>
+            <div>Score: {{team_score_B}}</div>
+            <button class="subscract" (click)="removePoint(match_id_B)">-</button>
+            <button class="addition" (click)="addPoint(match_id_B)">+</button>
+        </div>
+        <div>
+            <mat-slide-toggle (change)="onStatusTwo($event)" [(ngModel)]="Status_team_B">Status</mat-slide-toggle>
+        </div>
+    </div>
+    <div>
+        <button class="finishMatch" (click)="finishMatch()">Finished</button>
+    </div>
+</div>

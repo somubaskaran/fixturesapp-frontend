@@ -1,0 +1,212 @@
+.patient-detail-page {
+    .patient-widget {
+        margin-bottom: 20px;
+        .patient-card {
+            padding: 20px 16px;
+            background: #fff;
+            box-shadow: 0px 6px 20px rgba(119, 149, 183, 0.149);
+            border-radius: 5px;
+            height: 100%;
+            .patient-card-header {
+                display: flex;
+                margin-bottom: 18px;
+                .patient-profile-img {
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    width: 104px;
+                    height: 104px;
+                    border-radius: 50%;
+                    overflow: hidden;
+                }
+                .profile-img {
+                    width: 100%;
+                    object-fit: cover;
+                }
+                .patient-profile-info {
+                    flex: 1;
+                    padding-left: 20px;
+                    .action-block {
+                        margin-top: -8px;
+                        text-align: right;
+                    }
+                    .name {
+                        font-size: 18px;
+                        font-weight: 500;
+                        color: rgba(19, 50, 87, 0.9);
+                    }
+                    span {
+                        font-size: 14px;
+                        color: rgba(77, 100, 128, 0.9);
+                    }
+                }
+            }
+            .patient-card-body {
+                .patient-content {
+                    label {
+                        font: 14px proxima-regular;
+                        color: #57607b;
+                    }
+                    p {
+                        font: 14px proxima-bold;
+                        color: #57607b;
+                    }
+                }
+            }
+        }
+        .time-card {
+            padding: 20px 25px;
+            background: #ffffff;
+            box-shadow: 0px 6px 20px rgba(119, 149, 183, 0.149);
+            border: 1px solid #256bcf;
+            border-radius: 5px;
+            .time-card-header {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                margin-bottom: 10px;
+
+                h3 {
+                    font-size: 16px;
+                    font-weight: 500;
+                    color: rgba(77, 100, 128, 0.9);
+                }
+            }
+            .time-card-body {
+                margin-bottom: 17px;
+                .timer-info-block {
+                    .timer-content {
+                        label {
+                            font: 14px proxima-regular;
+                            color: #57607b;
+                        }
+                        p {
+                            font: 14px proxima-bold;
+                            color: #57607b;
+                        }
+                    }
+                }
+            }
+            .time-card-footer {
+                display: flex;
+                align-items: center;
+                flex-wrap: wrap;
+                button {
+                    margin-right: 15px;
+                    font-size: 13px;
+                    font-weight: 700;
+                    margin-top: 3px;
+                    &.start-btn {
+                        background: #2d76de;
+                        color: #fff;
+                    }
+                    &.stop-btn {
+                        background: #ff9f43;
+                        color: #fff;
+                    }
+                    img {
+                        margin-right: 8px;
+                    }
+                }
+            }
+        }
+    }
+    .table-filter {
+        padding: 23px 17px;
+        .mat-button-toggle-group .mat-button-toggle ::ng-deep {
+            .mat-button-toggle-label-content {
+                display: flex;
+                padding: 0 12px;
+                strong {
+                    margin: 0 5px;
+                }
+            }
+        }
+        .outline-btn {
+            border: 2px solid #657e9b !important;
+            font-size: 0.875rem;
+            font-weight: bold;
+            height: 2.375rem;
+            min-height: 2.375rem;
+            color: #657e9b;
+            margin-left: 1.25rem;
+        }
+    }
+}
+.add-patient-modal {
+    width: 100%;
+    .outline-button {
+        font-size: 0.875rem;
+        font-weight: bold;
+        border: 2px solid #657e9b !important;
+        color: #657e9b;
+    }
+    .form-action {
+        display: flex;
+        align-items: center;
+        margin-top: 1.875rem;
+        button {
+            height: 2.75rem;
+            max-height: none;
+            font-size: 0.875rem;
+            font-weight: bold;
+            padding: 0 2.5rem !important;
+        }
+        .cancel-btn {
+            border: 2px solid #657e9b !important;
+            color: #657e9b;
+            margin-right: 1.5rem;
+        }
+    }
+}
+.device-info-container {
+    h3 {
+        font-size: 16px;
+        font-weight: 600;
+        color: #5e5873;
+    }
+    .bp-link-btn {
+        font-size: 14px;
+        font-weight: 600;
+        color: #256bcf;
+        text-decoration: underline;
+    }
+    .device-info-block {
+        margin: 35px 0 40px;
+    }
+
+    .input-block {
+        label {
+            font-size: 14px;
+            font-weight: 600;
+            color: #5e5873;
+        }
+        .date-picker {
+            width: 100%;
+            max-width: 170px;
+            &.mat-form-field.mat-form-field-appearance-fill::ng-deep {
+                .mat-form-field-wrapper {
+                    margin: 10px 0 !important;
+                }
+            }
+        }
+    }
+}
+.ICD-code-container {
+    label {
+        font-size: 14px;
+        font-weight: 600;
+        color: #5e5873;
+    }
+    .input-block {
+        .mat-form-field {
+            display: block;
+            max-width: 210px;
+            &.mat-form-field-appearance-fill::ng-deep {
+                .mat-form-field-wrapper {
+                    margin: 10px 0 20px !important;
+                }
+            }
+        }
+    }
+}

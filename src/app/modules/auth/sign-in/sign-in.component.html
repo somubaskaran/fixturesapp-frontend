@@ -1,0 +1,79 @@
+<div class="auth-page-wrapper">
+    <div class="logo-container">
+        <img src="../../../../assets/logo.svg" alt="" />
+    </div>
+    <div class="auth-form-container">
+        <div class="auth-form">
+            <h2>Login</h2>
+            <!-- Alert -->
+            <fuse-alert class="mt-8 -mb-4" *ngIf="showAlert" [appearance]="'outline'" [showIcon]="false"
+                [dismissible]="true" [type]="alert.type" [@shake]="alert.type === 'error'">
+                {{ alert.message }}
+            </fuse-alert>
+            <form [ngStyle]="{'margin-top':showAlert?'20px':'0px'}" [formGroup]="signInForm" autocomplete="off"
+                #signInNgForm="ngForm">
+                <!-- Email field -->
+                <mat-form-field>
+                    <input id="email" matInput autocomplete="off" formControlName="email_address"
+                        placeholder="Email Address" />
+                    <mat-error *ngIf="signInForm.get('email_address').hasError('required')">
+                        Email address is required
+                    </mat-error>
+                    <mat-error *ngIf="signInForm.get('email_address').hasError('email')">
+                        Please enter a valid email address
+                    </mat-error>
+                </mat-form-field>
+                <!-- Password field -->
+                <mat-form-field>
+                    <input id="password" matInput placeholder="Password" type="password" autocomplete="off"
+                        formControlName="password" #passwordField placeholder="Password" />
+                    <button mat-icon-button type="button" (click)="
+                            passwordField.type === 'password'
+                                ? (passwordField.type = 'text')
+                                : (passwordField.type = 'password')
+                        " matSuffix>
+                        <mat-icon class="icon-size-5" *ngIf="passwordField.type === 'password'"
+                            [svgIcon]="'heroicons_solid:eye'"></mat-icon>
+                        <mat-icon class="icon-size-5" *ngIf="passwordField.type === 'text'"
+                            [svgIcon]="'heroicons_solid:eye-off'"></mat-icon>
+                    </button>
+                    <mat-error> Password is required </mat-error>
+                </mat-form-field>
+                <!-- Actions -->
+                <div class="auth-action-container">
+                    <mat-checkbox [color]="'primary'" formControlName="rememberMe">
+                        Remember me
+                    </mat-checkbox>
+                    <a class="forgot-link hover:underline" [routerLink]="['/forgot-password']">Forgot password?
+                    </a>
+                </div>
+                <div class="terms-link">
+                    <p>By Logging in you accept our</p>
+                    <p>
+                        <a (click)="openPopup(0)">Terms & Conditions</a> and<a (click)="openPopup(1)"> Privacy
+                            Policy</a>
+                    </p>
+
+                    <!-- <mat-error style="text-align:left" *ngIf="signInForm.get('agree').hasError('agree')">
+                        Please agree the terms of conditions and privacy policy
+                    </mat-error> -->
+                </div>
+                <!-- Submit button -->
+                <button mat-flat-button [disabled]="signInForm.disabled" (click)="signIn()" color="primary"
+                    class="submit-btn" type="submit">
+                    <span *ngIf="!signInForm.disabled"> Log In </span>
+                    <mat-progress-spinner *ngIf="signInForm.disabled" [diameter]="24"
+                        [mode]="'indeterminate'"></mat-progress-spinner>
+                </button>
+
+                <hr class="separator" />
+                <div class="create-user-container">
+                    <label>New User?</label>
+                    <button color="primary" mat-flat-button [routerLink]="['/sign-up']" class="register-btn">
+                        Register
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

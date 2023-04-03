@@ -1,0 +1,61 @@
+<!-- Navigation -->
+<fuse-vertical-navigation
+    class="print:hidden side-nav-container"
+    [appearance]="navigationAppearance"
+    [mode]="isScreenSmall ? 'over' : 'side'"
+    [name]="'mainNavigation'"
+    [autoCollapse]="true"
+    [navigation]="navigation.default"
+    [opened]="!isScreenSmall"
+>
+    <!-- Navigation header hook -->
+    <ng-container fuseVerticalNavigationContentHeader>
+        <!-- Logo -->
+        <a href="#" class="logo">
+            <img src="../../../../../assets/logo.svg" alt="Logo image" />
+        </a>
+    </ng-container>
+</fuse-vertical-navigation>
+
+<!-- Wrapper -->
+<div class="flex flex-col flex-auto w-full min-w-0 wrapper" >
+    <!-- Header -->
+    <div class="page-header print:hidden">
+        <div class="left-col">
+            <button
+                class="hidden md:inline-flex toggle-btn"
+                mat-icon-button
+                matTooltip="Toggle Sidemenu"
+                matTooltipPosition="right"
+                (click)="toggleNavigationAppearance()"
+            >
+            <mat-icon [svgIcon]="'heroicons_outline:menu'"></mat-icon>
+
+            </button>
+                 <!-- Navigation toggle button -->
+                 <button
+                 class="toggle-nav toggle-btn "
+                 mat-icon-button
+                matTooltip="Toggle Sidemenu"
+                matTooltipPosition="right"
+
+                 (click)="toggleNavigation('mainNavigation')">
+                 <mat-icon [svgIcon]="'heroicons_outline:menu'"></mat-icon>
+
+
+             </button>
+           
+        </div>
+        <!-- Components -->
+        <div class="header-items">
+            <user></user>
+        </div>
+    </div>
+
+    <!-- Content -->
+    <div class="app-page-container">
+        <!-- *ngIf="true" hack is required here for router-outlet to work correctly.
+             Otherwise, layout changes won't be registered and the view won't be updated! -->
+        <router-outlet *ngIf="true"></router-outlet>
+    </div>
+</div>

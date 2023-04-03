@@ -1,0 +1,13 @@
+<svg id="calendar" xmlns="http://www.w3.org/2000/svg" width="16.956" height="16.956" viewBox="0 0 16.956 16.956">
+  <g id="Group_2002" data-name="Group 2002">
+    <g id="Group_2001" data-name="Group 2001">
+      <path id="Path_1324" data-name="Path 1324" d="M15.139,1.817H13.323V.606a.606.606,0,1,0-1.211,0V1.817H4.845V.606a.606.606,0,1,0-1.211,0V1.817H1.817A1.817,1.817,0,0,0,0,3.633V15.139a1.817,1.817,0,0,0,1.817,1.817H15.139a1.817,1.817,0,0,0,1.817-1.817V3.633A1.817,1.817,0,0,0,15.139,1.817Zm.606,13.323a.606.606,0,0,1-.606.606H1.817a.606.606,0,0,1-.606-.606V7.267H15.745Zm0-9.084H1.211V3.633a.606.606,0,0,1,.606-.606H3.633V4.239a.606.606,0,1,0,1.211,0V3.028h7.267V4.239a.606.606,0,1,0,1.211,0V3.028h1.817a.606.606,0,0,1,.606.606V6.056Z" fill="#f1f2f8"/>
+    </g>
+  </g>
+  <rect id="Rectangle_527" data-name="Rectangle 527" width="2.548" height="2.548" transform="translate(3.381 8.224)" fill="#f1f2f8"/>
+  <rect id="Rectangle_532" data-name="Rectangle 532" width="2.548" height="2.548" transform="translate(3.381 12.047)" fill="#f1f2f8"/>
+  <rect id="Rectangle_528" data-name="Rectangle 528" width="2.548" height="2.548" transform="translate(7.203 8.224)" fill="#f1f2f8"/>
+  <rect id="Rectangle_531" data-name="Rectangle 531" width="2.548" height="2.548" transform="translate(7.203 12.047)" fill="#f1f2f8"/>
+  <rect id="Rectangle_529" data-name="Rectangle 529" width="2.548" height="2.548" transform="translate(11.026 8.224)" fill="#f1f2f8"/>
+  <rect id="Rectangle_530" data-name="Rectangle 530" width="2.548" height="2.548" transform="translate(11.026 12.047)" fill="#f1f2f8"/>
+</svg>

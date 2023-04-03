@@ -1,0 +1,180 @@
+<div class="patient-list-page inner-scroll">
+    <div class="section-header">
+        <h2>Matches</h2>
+        <div class="header-items">
+            <button
+                mat-stroked-button
+                class="outline-btn"
+                (click)="addPatient()"
+                matTooltip="Add a Match"
+            >
+                Add a Match
+            </button>
+        </div>
+    </div>
+    <div class="table-container">
+        <div class="table-filter">
+            <div class="select-filter-container">
+            </div>
+            <mat-button-toggle-group class="list-view-toggle" [value]="addClass">
+                <mat-button-toggle matTooltip="Grid View" (change)="listViewChange($event.value)" value="grid-view">
+                    <img src="../../../../../assets/grid-icon.svg" alt="" />
+                </mat-button-toggle>
+                <mat-button-toggle matTooltip="List View" (change)="listViewChange($event.value)" value="list">
+                    <img src="../../../../../assets/list-icon.svg" alt="" />
+                </mat-button-toggle>
+            </mat-button-toggle-group>
+        </div>
+        <div *ngIf="addClass === 'list'" class="table-wrapper">
+            <div class="table-block">
+                <ngx-datatable class="material fullscreen" [rows]="(serverResponse | async) || []"
+                    [headerHeight]="$any('auto')" [footerHeight]="0" rowHeight="auto" [scrollbarH]="true"
+                    [count]="page1.totalElements" [offset]="page1.pageNumber" (page)="setPage($event)"
+                    (sort)="onSort($event)">
+                    <ngx-datatable-column name="Tournment Name" [width]="150">
+                        <ng-template let-row="row" let-rowIndex="rowIndex" ngx-datatable-cell-template>
+                            <a class="patientName" (click)="setData(row)" matTooltip="view Tournment">{{ row.tour_name }}</a>
+                        </ng-template>
+                    </ngx-datatable-column>
+    
+                    <ngx-datatable-column name="Tournment Type" prop="tour_type" [width]="100" [sortable]="true">
+                        <ng-template let-row="row" let-rowIndex="rowIndex" ngx-datatable-cell-template>
+                            {{ row.tour_type }}
+                        </ng-template>
+                    </ngx-datatable-column>
+                    <ngx-datatable-column name="Actions" [sortable]="false">
+                        <ng-template let-row="row" let-value="value" let-rowIndex="rowIndex"
+                            ngx-datatable-cell-template>
+                            <div class="action-col">
+                                <a class="custom-btn-edit" md-icon-button value="{{ value }}" (click)="setData(row)">
+                                    <!--  (click)="editDoctor(row)"  -->
+                                    <mat-icon matTooltip="view patient">visibility</mat-icon>
+                                </a>
+                                <div class="toggle-switch ml-3" matTooltip="change patient status">
+                                    <input type="checkbox" hidden name="doctor_status_{{ rowIndex + 1 }}"
+                                        id="toggle{{ rowIndex }}" [(ngModel)]="row.status" (change)="changeStatus(row)"
+                                        [checked]="row.status" />
+                                    <label class="toggle-slider" for="toggle{{ rowIndex }}"></label>
+                                </div>
+                            </div>
+                        </ng-template>
+                    </ngx-datatable-column>
+                </ngx-datatable>
+            </div>
+            <mat-paginator *ngIf="addClass === 'list'" style="background: #f1f2f8" [length]="total"
+                [pageSize]="requestParam.pasgesize" [pageSizeOptions]="[5, 10, 25, 100]" (page)="getServerData($event)"
+                aria-label="Select page" [pageIndex]="requestParam.current">
+            </mat-paginator>
+        </div>
+    </div>
+</div>    
+
+<ng-template #firstFormDialog>
+    <div class="dialog-content-wrapper">
+        <div class="add-patient-modal">
+            <div class="modal-header">
+                <button (click)="cancelPopup()" class="back-btn">
+                    <mat-icon aria-hidden="false" aria-label="Example home icon"
+                        >chevron_left</mat-icon
+                    >
+                    Back
+                </button>
+                <h2>Add a Match</h2>
+            </div>
+            <div class="modal-body">
+                <p *ngIf="emailError">{{ emailError }}</p>
+                <form [formGroup]="firstForm">
+                    <div class="input-block">
+                        <div class="grid grid-cols-6">
+                            <div class="col-span-6 sm:col-span-3">
+                                <!-- <mat-form-field class="w-full" appearance="fill">
+                                <mat-label>Select Specialization</mat-label>
+                                <input matInput value="">
+                            </mat-form-field> -->
+                            </div>
+                        </div>
+                    </div>
+                    <div class="input-block">
+                        <p>Patient Details</p>
+                        <div class="grid grid-cols-6">
+                            <div class="col-span-6 sm:col-span-3">
+                                <mat-form-field
+                                    class="w-full"
+                                    appearance="fill"
+                                >
+                                    <mat-label
+                                        >First Name &nbsp;<span
+                                            style="color: red"
+                                            >*</span
+                                        ></mat-label
+                                    >
+                                    <input
+                                        matInput
+                                        formControlName="matchName"
+                                        id="firstName"
+                                        [(ngModel)]="modelmatchName"
+                                        [errorStateMatcher]="matcher"
+                                        (change)="
+                                            removeSpace(
+                                                firstForm.value.matchName,
+                                                'modelFirstName'
+                                            )
+                                        "
+                                    />
+                                    <mat-error
+                                        *ngIf="
+                                            firstForm
+                                                .get('matchName')
+                                                .hasError('required')
+                                        "
+                                    >
+                                        Please Enter Match Name
+                                    </mat-error>
+                                    <!-- <mat-error
+                                        *ngIf="
+                                            firstForm
+                                                .get('firstName')
+                                                .hasError('pattern')
+                                        "
+                                    >
+                                        Please Enter whithout space
+                                    </mat-error> -->
+                                    <!-- <mat-error
+                                        *ngIf="
+                                            firstForm
+                                                .get('firstName')
+                                                .hasError('whitespace')
+                                        "
+                                        >Please enter valid data</mat-error
+                                    > -->
+                                </mat-form-field>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-action">
+                        <button
+                            mat-stroked-button
+                            (click)="cancelPopup()"
+                            class="cancel-btn"
+                        >
+                            Cancel
+                        </button>
+                        <button
+                            (click)="onfirstFormSubmit()"
+                            mat-flat-button
+                            color="primary"
+                            class="next-btn"
+                        >
+                            Next
+                            <mat-icon
+                                aria-hidden="false"
+                                aria-label="Example home icon"
+                                >chevron_right</mat-icon
+                            >
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</ng-template>

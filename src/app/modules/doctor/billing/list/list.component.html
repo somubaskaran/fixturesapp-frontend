@@ -1,0 +1,423 @@
+<ngx-spinner></ngx-spinner>
+<div class="billing-list-page inner-scroll">
+    <div class="section-header">
+        <div *ngIf="Message != ''" class="toast-container {{ MessageClass }}">
+                <p>{{ Message }}</p>
+            </div>
+        <h2>Billing</h2>
+    </div>
+    <div class="section-filters">
+        <div class="left-col">
+            <div class="search-field">
+                <mat-form-field>
+                    <input
+                        matInput
+                        #searchInput
+                        [ngModel]="search"
+                        name="search"
+                        (ngModelChange)="filterChange($event, 'search')"
+                        placeholder="Enter a Patient Name/ID"
+                    />
+                    <mat-icon matSuffix>
+                        <img src="../../../../assets/search.svg" alt="" />
+                    </mat-icon>
+                </mat-form-field>
+            </div>
+        </div>
+        <div class="right-col">
+            <button
+                mat-button
+                class="download-btn"
+                matTooltip="Download Selected Reports"
+                (click)="selectedbillingsexporttocsv()"
+            >
+                <img
+                    matSuffix
+                    src="../../../../../assets/download.svg"
+                    alt=""
+                />
+                Download Selected Reports
+            </button>
+            <button
+                mat-button
+                class="download-btn"
+                matTooltip="Download all Patient Reports"
+                (click)="billingsexporttocsv()"
+            >
+                <img
+                    matSuffix
+                    src="../../../../../assets/download.svg"
+                    alt=""
+                />
+                Download all Patient Reports
+            </button>
+        </div>
+    </div>
+    <div class="table-container">
+        <div class="table-filter">
+            <div
+                class="select-filter-container w-full"
+                style="display: flex; align-items: center"
+            >
+                <mat-form-field style="width: 13.75rem">
+                    <mat-label>Select Billing Code</mat-label>
+                    <mat-select
+                        (selectionChange)="
+                            filterChange($event.value, 'billingCode')
+                        "
+                        [(ngModel)]="requestParam.billingCode"
+                    >
+                        <mat-option value="99457"> 99457 </mat-option>
+                        <mat-option value="99458"> 99457 & 99458 </mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <mat-form-field
+                    appearance="fill"
+                    class="outline-input period-picker"
+                >
+                    <mat-date-range-input
+                        [formGroup]="range"
+                        [rangePicker]="picker"
+                        [max]="todayDate"
+                    >
+                        <input
+                            matStartDate
+                            formControlName="start"
+                            #dateRangeStart
+                            placeholder="Select Period"
+                            readonly
+                        />
+                        <input
+                            matEndDate
+                            formControlName="end"
+                            #dateRangeEnd
+                            (dateChange)="
+                                dateRangeChange(dateRangeStart, dateRangeEnd)
+                            "
+                            readonly
+                        />
+                    </mat-date-range-input>
+                    <mat-datepicker-toggle matSuffix [for]="picker">
+                        <img
+                            matDatepickerToggleIcon
+                            style="width: 15px"
+                            src="../../../../../assets/calendar.svg"
+                            alt=""
+                        />
+                    </mat-datepicker-toggle>
+                    <!-- <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon> -->
+
+                    <mat-date-range-picker #picker></mat-date-range-picker>
+                </mat-form-field>
+                <mat-form-field style="width: 9.375rem">
+                    <mat-label>Sort By</mat-label>
+                    <mat-select
+                        (selectionChange)="filterChange($event.value, 'sortby')"
+                        [(ngModel)]="requestParam.sortby"
+                    >
+                        <mat-option
+                            *ngFor="let sortby of sortBy"
+                            [value]="sortby.name"
+                            >{{ sortby.value }}</mat-option
+                        >
+                    </mat-select>
+                </mat-form-field>
+                <mat-form-field style="width: 9.375rem">
+                    <mat-label>Status</mat-label>
+                    <mat-select
+                        (selectionChange)="filterChange($event.value, 'status')"
+                        [(ngModel)]="requestParam.time_status"
+                    >
+                        <mat-option value="5"> Less than 5 mins </mat-option>
+                        <mat-option value="10"> Less than 10 mins </mat-option>
+                        <mat-option value="15"> Less than 15 mins </mat-option>
+                        <mat-option value="20">
+                            Target time achieved
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+
+                <button
+                    mat-stroked-button
+                    class="outline-btn reset-btn ml-3"
+                    matTooltip="Reset"
+                    (click)="resetForm(dateRangeStart, dateRangeEnd)"
+                >
+                    Reset
+                </button>
+                <button
+                    mat-stroked-button
+                    class="outline-btn reset-btn ml-auto"
+                    matTooltip="View 99454 Reading Status"
+                    routerLink="/doctor/reading/list"
+                >
+                    View 99454 Reading Status
+                </button>
+            </div>
+        </div>
+
+        <div class="table-container">
+            <div class="table-wrapper">
+                <div class="table-block">
+                    <div class="table-lagend-container">
+                        <label>Consulting Time Status Legend(Remaining)</label>
+                        <ul>
+                            <li>
+                                <i class="icon" style="background: #ea5556"></i>
+                                <span>Less than 5 mins</span>
+                            </li>
+                            <li>
+                                <i class="icon" style="background: #fdab5d"></i>
+                                <span>Less than 10 mins</span>
+                            </li>
+                            <li>
+                                <i class="icon" style="background: #ffd94c"></i>
+                                <span>Less than 15 mins</span>
+                            </li>
+                            <li>
+                                <i class="icon" style="background: #2ac770"></i>
+                                <span>Target time achieved</span>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="billing-table" #divToScroll>
+                        <ngx-datatable
+                            class="material fullscreen"
+                            [rows]="(serverResponse | async) || []"
+                            [headerHeight]="$any('auto')"
+                            [footerHeight]="0"
+                            rowHeight="auto"
+                            [scrollbarH]="true"
+                            [externalPaging]="true"
+                            [count]="page1.totalElements"
+                            [offset]="page1.pageNumber"
+                            [limit]="page1.size"
+                            (page)="setPage($event)"
+                            (sort)="onSort($event)"
+                            [selected]="selected"
+                            [selectionType]="SelectionType.checkbox"
+                            [selectAllRowsOnPage]="false"
+                            (select)="onSelect($event)"
+                        >
+                            <ngx-datatable-column
+                                [width]="60"
+                                [sortable]="false"
+                                [canAutoResize]="false"
+                                [draggable]="false"
+                                [resizeable]="false"
+                                [headerCheckboxable]="false"
+                                [checkboxable]="false"
+                            >
+                                <ng-template
+                                    ngx-datatable-header-template
+                                    let-value="value"
+                                    let-allRowsSelected="allRowsSelected"
+                                    let-selectFn="selectFn"
+                                >
+                                    <mat-checkbox
+                                        color="primary"
+                                        [checked]="allRowsSelected"
+                                        (change)="selectFn(!allRowsSelected)"
+                                        style="margin-left: 8px"
+                                    ></mat-checkbox>
+                                </ng-template>
+                                <ng-template
+                                    ngx-datatable-cell-template
+                                    let-value="value"
+                                    let-isSelected="isSelected"
+                                    let-onCheckboxChangeFn="onCheckboxChangeFn"
+                                >
+                                    <mat-checkbox
+                                        color="primary"
+                                        [checked]="isSelected"
+                                        (change)="onCheckboxChangeFn($event)"
+                                        ng-model="selected[record.patientMRN]"
+                                        style="margin-left: 8px"
+                                    ></mat-checkbox>
+                                </ng-template>
+                            </ngx-datatable-column>
+
+                            <ngx-datatable-column
+                                [cellClass]="'text-hidden'"
+                                name="Patient Details"
+                                [width]="250"
+                            >
+                                <ng-template
+                                    let-row="row"
+                                    let-rowIndex="rowIndex"
+                                    ngx-datatable-cell-template
+                                >
+                                    <div class="avatar-detail-col">
+                                        <!-- <img
+                                            class="avatar"
+                                            src="assets/images/avatars/doctor.jpg"
+                                            alt=""
+                                        /> -->
+                                        <img
+                                            class="avatar"
+                                            src="assets/images/avatars/profile.jpg"
+                                            alt=""
+                                        />
+                                        <div class="avatar-info patientName" (click)="setData(row)">
+                                            <p class="name">
+                                                {{ row.first_name }}
+                                                {{ row.last_name }}
+                                            </p>
+                                            <span>
+                                                {{ row.patientMRN }} -
+                                                {{ row.genderName }}</span
+                                            >
+                                        </div>
+                                    </div>
+                                    <!-- <span
+                                        matTooltip="{{ row.first_name }} {{
+                                            row.last_name
+                                        }}"
+                                    >
+                                        <p *ngIf="row.patient_id != null">
+                                            {{ row.first_name }}
+                                            {{ row.last_name }}
+                                        </p>
+                                        <p *ngIf="row.patient_id == null">-</p>
+                                    </span> -->
+                                </ng-template>
+                            </ngx-datatable-column>
+
+                            <ngx-datatable-column
+                                name="Date of Birth"
+                                [width]="200"
+                            >
+                                <ng-template
+                                    let-row="row"
+                                    let-rowIndex="rowIndex"
+                                    ngx-datatable-cell-template
+                                >
+                                    <p>
+                                        {{ row.dateOfBirth }}
+                                    </p>
+                                </ng-template>
+                            </ngx-datatable-column>
+
+                            <ngx-datatable-column name="Code" [width]="200">
+                                <ng-template
+                                    let-row="row"
+                                    let-rowIndex="rowIndex"
+                                    ngx-datatable-cell-template
+                                >
+                                    <div 
+                                        *ngFor="let citem of row.items; let i = index">
+                                        <span class="code-col" *ngIf="i < 2">
+                                            <i 
+                                            class="code-icon {{ citem.color }}"
+                                        ></i>
+                                        {{ citem.colorCode }}
+                                        </span>
+                                    </div>
+                                        
+                                </ng-template>
+                            </ngx-datatable-column>
+
+                            <ngx-datatable-column
+                                name="Date of Service"
+                                [width]="200"
+                            >
+                                <ng-template
+                                    let-row="row"
+                                    let-rowIndex="rowIndex"
+                                    ngx-datatable-cell-template
+                                >
+                                    <p>
+                                        {{ row.DateOfService }}
+                                    </p>
+                                </ng-template>
+                            </ngx-datatable-column>
+
+                            <ngx-datatable-column
+                                name="Total Time"
+                                [width]="200"
+                            >
+                                <ng-template
+                                    let-row="row"
+                                    let-rowIndex="rowIndex"
+                                    ngx-datatable-cell-template
+                                >
+                                    <p>
+                                        {{ row.totalTimeSum }}
+                                    </p>
+                                </ng-template>
+                            </ngx-datatable-column>
+
+                            <ngx-datatable-column name="Paid" [width]="100">
+                                <ng-template
+                                    let-row="row"
+                                    let-rowIndex="rowIndex"
+                                    ngx-datatable-cell-template
+                                >
+                                    <div
+                                        class="toggle-switch"
+                                        *ngIf="
+                                            row.billingStatus == '0' ||
+                                            row.billingStatus == null
+                                        "
+                                    >
+                                        <input
+                                            type="checkbox"
+                                            hidden
+                                            id="toggle_{{ row.patientUuid }}"
+                                            (change)="patientPaidStatus(row)"
+                                            onclick="return confirm('Are you sure you want to change the paid status?')"
+                                        />
+                                        <label
+                                            class="toggle-slider"
+                                            for="toggle_{{ row.patientUuid }}"
+                                        ></label>
+                                    </div>
+
+                                    <div
+                                        class="toggle-switch"
+                                        *ngIf="row.billingStatus == '1'"
+                                    >
+                                        <input
+                                            type="checkbox"
+                                            hidden
+                                            id="toggle_{{ row.patientUuid }}"
+                                            (change)="patientPaidStatus(row)"
+                                            checked
+                                            onclick="return confirm('Are you sure you want to change the paid status?')"
+                                        />
+                                        <label
+                                            class="toggle-slider"
+                                            for="toggle_{{ row.patientUuid }}"
+                                        ></label>
+                                    </div>
+                                    <!-- <p
+                                        *ngIf="row.todoStatus == 1"
+                                        style="color: #2ac770"
+                                    >
+                                        {{ row.status }}
+                                    </p>
+                                    <p
+                                        *ngIf="row.todoStatus == 0"
+                                        style="color: #d1d4de"
+                                    >
+                                        {{ row.status }}
+                                    </p> -->
+                                </ng-template>
+                            </ngx-datatable-column>
+                        </ngx-datatable>
+                    </div>
+                </div>
+                <mat-paginator
+                    style="background: #f1f2f8"
+                    [length]="total"
+                    [pageSize]="requestParam.pasgesize"
+                    [pageSizeOptions]="[5, 10, 25, 100]"
+                    (page)="getServerData($event)"
+                    aria-label="Select page"
+                    [pageIndex]="requestParam.current"
+                >
+                </mat-paginator>
+            </div>
+        </div>
+    </div>
+</div>

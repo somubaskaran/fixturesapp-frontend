@@ -1,0 +1,306 @@
+<ngx-spinner></ngx-spinner>
+  <div class="kitting-list-page inner-scroll">
+    <div class="section-header">
+        <h2>Kitting</h2>
+        <!-- <div class="header-items">
+            <button mat-stroked-button class="outline-btn"  matTooltip="Import Kits File" >Import Kits File</button>
+            <button mat-flat-button color="primary" class="primary-btn ml-4" matTooltip="Export Kits File">Export Kits File</button>
+        </div> -->
+    </div>
+    <div class="section-filters">
+        <div class="left-col">
+            <div class="search-field">
+                <mat-form-field>
+                    <input matInput [ngModel]="search" name="search" (ngModelChange)="filterChange($event,'search')"
+                        placeholder="Enter a search item" />
+                    <mat-icon matSuffix>
+                        <img src="../../../../assets/search.svg" alt="" />
+                    </mat-icon>
+                </mat-form-field>
+            </div>
+        </div>
+       
+    </div>
+    <div class="table-container">
+        <!-- <div class="table-filter">
+            <div class="select-filter-container">
+                <mat-form-field style="width: 12.5rem;">
+                    <mat-label>Sort by Name</mat-label>
+                    <mat-select  >
+                        <mat-option value="asc"> Ascending </mat-option>
+                        <mat-option value="desc"> Descending </mat-option>
+
+                    </mat-select>
+                </mat-form-field>
+
+                <mat-form-field style="width: 12.5rem;">
+                    <mat-label>Sort by Device</mat-label>
+
+                    <mat-select  >
+                        <mat-option value="1"> Bp </mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <mat-form-field style="width: 12.5rem;">
+                    <mat-label>Sort by Status</mat-label>
+                    <mat-select  >
+                        <mat-option value="sent"> sent</mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+ 
+        </div> -->
+ 
+ 
+            <div *ngIf="addClass === 'list'" class="table-wrapper">
+            <div class="table-block">
+
+                <ngx-datatable class="material fullscreen" [rows]="(serverResponse | async) || []"
+                    [headerHeight]="$any('auto')" [footerHeight]="0" rowHeight="auto" [scrollbarH]="true"
+                    [externalPaging]="true" [count]="page1.totalElements" [offset]="page1.pageNumber" [limit]="page1.size"
+                    (page)="setPage($event)" (sort)="onSort($event)">
+                    <ngx-datatable-column name="ID" [sortable]="false" [width]="120">
+                        <ng-template let-row="row" let-rowIndex="rowIndex" ngx-datatable-cell-template>
+                            #{{row.patient_id}}
+                        </ng-template>
+                    </ngx-datatable-column>
+
+                    <ngx-datatable-column [cellClass]="'text-hidden'"  name="Patient Name" [width]="200">
+                        <ng-template  let-row="row" let-rowIndex="rowIndex" ngx-datatable-cell-template>
+                            <span
+                            matTooltip="{{row.first_name}} {{row.last_name}}"
+                            >
+
+                                {{row.first_name}} {{row.last_name}}
+                            </span>
+                        </ng-template>
+                    </ngx-datatable-column>  
+    
+                    <ngx-datatable-column name="Contact" [width]="220" [sortable]="false">
+                        <ng-template let-row="row" let-rowIndex="rowIndex" ngx-datatable-cell-template>
+                            <p>{{row.patient_email}}</p>
+                            <p>{{row.mobile_phone}}</p>
+                        </ng-template>
+                    </ngx-datatable-column>
+    
+                    <ngx-datatable-column name="Address" [sortable]="false" [width]="250">
+                        <ng-template let-row="row" let-rowIndex="rowIndex" ngx-datatable-cell-template>
+                             {{row.address_line_1}}, {{row.address_line_2}},{{row.city}},{{row.state}},{{row.zip}}
+                        </ng-template>
+                    </ngx-datatable-column>
+                    
+                    <ngx-datatable-column name="Hub SN." [sortable]="false" [width]="170">
+                        <ng-template let-row="row" let-rowIndex="rowIndex" ngx-datatable-cell-template>
+                            {{row.hub}}
+                        </ng-template>
+                    </ngx-datatable-column>
+
+                    <ngx-datatable-column name="BT Address" [sortable]="false" [width]="170">
+                        <ng-template let-row="row" let-rowIndex="rowIndex" ngx-datatable-cell-template>
+                            {{row.bt_address}}
+                        </ng-template>
+                    </ngx-datatable-column>
+
+                    <ngx-datatable-column name="Device Model" [sortable]="true" [width]="150">
+                        <ng-template let-row="row" let-rowIndex="rowIndex" ngx-datatable-cell-template>
+                            {{row.deviceModel}}
+                        </ng-template>
+                    </ngx-datatable-column>
+
+                    <ngx-datatable-column name="Device Type" [sortable]="false" [width]="170">
+                        <ng-template let-row="row" let-rowIndex="rowIndex" ngx-datatable-cell-template>
+                            {{row.deviceName}}
+                        </ng-template>
+                    </ngx-datatable-column>
+    
+                    <ngx-datatable-column name="Status" [sortable]="false" [width]="175">
+                        <ng-template let-row="row" let-rowIndex="rowIndex" ngx-datatable-cell-template>
+                            <!-- classNames : .not-sent,.deliverd -->
+                            <mat-form-field class="status-select w-full" appearance="fill">
+                                <mat-select [(value)]="row.status" (selectionChange)="UpdateKitingStatus($event.value,row)">
+                                    <mat-option value="0" style="color:#2D76DE">Task pending</mat-option>
+                                    <mat-option value="1" style="color:#EA5455">Ordered</mat-option>
+                                    <mat-option value="2" style="color:#fba405">Processed</mat-option>
+                                    <mat-option value="3" style="color:#2AC770">Shipped</mat-option>    
+                                    <mat-option value="4" style="color:#16631c">Delivered</mat-option>
+
+                                </mat-select>
+                              </mat-form-field>
+                        </ng-template>
+                    </ngx-datatable-column>
+
+                    <ngx-datatable-column name="Tracking ID" [sortable]="false" [width]="160">
+                        <ng-template let-row="row" let-rowIndex="rowIndex" ngx-datatable-cell-template>
+                            <p class="trackid" *ngIf="row.tracking_id != 'N/A'">
+                                <a href="{{row.tracking_id}}" target="_blank">Link</a>
+                            </p>
+                            <p *ngIf="row.tracking_id == 'N/A'">-</p>
+                        </ng-template>
+                    </ngx-datatable-column>
+
+                    <ngx-datatable-column name="Actions" [sortable]="false">
+                        <ng-template let-row="row" let-value="value" let-rowIndex="rowIndex" ngx-datatable-cell-template>
+                            <div class="action-col">
+                                <a class="custom-btn-edit" md-icon-button value="{{value}}">
+                                    <!--  (click)="editDoctor(row)"  -->
+                                    <!-- <mat-icon matTooltip="view patient">visibility</mat-icon> -->
+                                    <img src="../../../../assets/icons/Component.svg" alt="" (click)="addKitting(row)"/>
+                                </a>
+                                <a class="custom-btn-edit" style="margin: 0 1.25rem;" md-icon-button value="{{value}}">
+                                    <!--  (click)="editDoctor(row)"  -->
+                                    <img src="../../../../assets/icons/delete.svg" alt="" (click)="deleteKitting(row)" matTooltip="Delete Kitting"/>
+                                </a>
+                                <!-- <div class="toggle-switch" matTooltip="change patient status">
+                                    <input type="checkbox"  hidden name="doctor_status_{{rowIndex + 1}}"
+                                        id="toggle{{rowIndex}}" (change)="changeStatus(row)" [checked]="row.status" />
+                                    <label class="toggle-slider" for="toggle{{rowIndex}}"></label>
+                                </div> -->
+                            </div>
+                        </ng-template>
+                    </ngx-datatable-column>
+                </ngx-datatable>
+            </div>
+            <mat-paginator style="background: #f1f2f8;" [length]="total" [pageSize]="requestParam.pasgesize"
+                [pageSizeOptions]="[5, 10, 25, 100]" (page)="getServerData($event)" aria-label="Select page">
+            </mat-paginator>
+        </div>
+    
+    </div>
+</div> 
+
+
+<ng-template #firstFormDialog>
+    <div class="dialog-content-wrapper ">
+    <div class="kitting-modal">
+        <div class="modal-header">
+             
+            <h2>Kitting Patient </h2>
+        </div>
+        <div class="modal-body">
+        <div class="patient-info grid grid-cols-6">
+            <div class="left-col col-span-12 sm:col-span-2">
+                <img src="https://www.pixsy.com/wp-content/uploads/2021/04/ben-sweet-2LowviVHZ-E-unsplash-1.jpeg" alt="">
+                <p class="name">{{KitpatientName}}</p>
+                <span class="patient-id">#{{KitpatientId}}</span>
+            </div>
+            <div class="right-col col-span-12 sm:col-span-4">
+                <div class="grid grid-cols-6  patient-details">
+                    <div class=" col-span-12 sm:col-span-3 details-col">
+                        <label >Email</label>
+                        <p>{{KitPatientEmail}}</p>
+                    </div>
+                    <div class=" col-span-12 sm:col-span-3 details-col">
+                        <label >Mobile</label>
+                        <p>{{KitPatientMobile}}</p>
+                    </div>
+                    <div class=" col-span-12 sm:col-span-6 details-col">
+                        <label >Address</label>
+                        <p>{{KitPatientAddressLine1}}, {{KitPatientAddressLine2}} ,{{KitCity}}, {{KitState}}, {{KitZip}}</p>
+                    </div>
+                </div>
+            </div>
+        </div>            
+        <form [formGroup]="kittingForm" (ngSubmit)="kittingFormSubmit()">
+            <div class="input-block">
+                <div class="grid grid-cols-2">
+                    <div class="col-span-6 sm:col-span-1">
+                        <mat-form-field class="w-full" appearance="fill">
+                            <mat-label>Hub Serial Number*</mat-label>
+                            <input [disabled]="true" type="text" [ngModel]="KitHub" matInput formControlName="hub_serial" id="hub_serial" [errorStateMatcher]="matcher">
+                            <mat-error *ngIf="kittingForm.get('hub_serial').hasError('required')">
+                                Please Enter Hub Serial Number
+                                </mat-error>
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div class="grid grid-cols-2" *ngIf="show_check">
+                     <div class="col-span-6 sm:col-span-1">
+                        <mat-checkbox
+                            [color]="'primary'"
+                            class="mb-6"
+                            (change)="
+                                changeEditHubNumber($event)
+                            "
+                            [(ngModel)]="EditHubNumber"
+                        >
+                            This Hub is not valid
+                        </mat-checkbox>
+                    </div>    
+                </div>
+                <div class="grid grid-cols-2">
+                    <div class="col-span-6 sm:col-span-1">
+                        <mat-form-field class="w-full" appearance="fill">
+                            <mat-label>Device BT Address*</mat-label>
+                            <input type="text" [ngModel]="KitBtAddress" matInput formControlName="bt_address" id="bt_address" [errorStateMatcher]="matcher">
+                            <mat-error *ngIf="kittingForm.get('bt_address').hasError('required')">
+                                Please Device BT Address
+                                </mat-error>
+                        </mat-form-field>
+                    </div>
+                     
+                    <div class="col-span-6 sm:col-span-1">
+                        <mat-form-field class="w-full" appearance="fill">
+                            <mat-label>Device Serial Number</mat-label>
+                            <input type="text" [ngModel]="KitDeviceSerial" matInput formControlName="device_serial" id="device_serial" [errorStateMatcher]="matcher">
+                            <mat-error *ngIf="kittingForm.get('device_serial').hasError('required')">
+                                Device Serial Number
+                                </mat-error>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-span-6 sm:col-span-1">
+                        <mat-form-field class="w-full" appearance="fill">
+                            <mat-label>Sensor Type</mat-label>
+                            <mat-select formControlName="sensor_type" id="sensor_type" [errorStateMatcher]="matcher" (selectionChange)="ChangedeviceType($event.value)" [(ngModel)]="device_type" [disabled]="disableDeviceType">
+                                <!-- <mat-option value="1">oximeter</mat-option>
+                                <mat-option value="2">weight scale</mat-option>
+                                <mat-option value="3">glucometer</mat-option>
+                                <mat-option value="thermometer">thermometer</mat-option>
+                                <mat-option value="bloodpressure">bloodpressure</mat-option> -->
+                                <mat-option *ngFor="let option of deviceTypes" [value]="option.id">{{option.device_name}}</mat-option>
+                            </mat-select>
+                            <mat-error *ngIf="kittingForm.get('sensor_type').hasError('required')">
+                                Please Select Sensor Type
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-span-6 sm:col-span-1">
+                        <mat-form-field class="w-full" appearance="fill">
+                            <mat-label>Device Model</mat-label>
+                            <mat-select formControlName="device_model" id="device_model" [errorStateMatcher]="matcher" [(ngModel)]="device_model" [disabled]="disableDeviceModel" (selectionChange)="ChangedeviceModel($event)">
+                                <mat-option *ngFor="let option of deviceModels" [value]="option.id">{{option.model_name}}</mat-option>
+                            </mat-select>
+                            <mat-error *ngIf="kittingForm.get('device_model').hasError('required')">
+                                Please Select Device Model
+                            </mat-error>
+                        </mat-form-field>
+                    </div>               
+                    <div class="col-span-6 sm:col-span-1">
+                        <mat-form-field class="w-full" appearance="fill">
+                            <mat-label>Manufacturers</mat-label>
+                            <input type="text" matInput formControlName="manufacturers" id="manufacturers" [errorStateMatcher]="matcher" [(ngModel)]="KitManufacturers">
+                        </mat-form-field>
+                    </div>
+    
+                    <div class="col-span-6 sm:col-span-1">
+                        <mat-form-field class="w-full" appearance="fill">
+                            <mat-label>Tracking Link</mat-label>
+                            <input type="text" matInput formControlName="trackinglink" id="manufacturers" [errorStateMatcher]="matcher" [(ngModel)]="KitTrackId">
+                        </mat-form-field>
+                    </div>
+                   
+                </div>
+            </div>
+            <div class="input-block">
+                <p *ngIf="kittingError" style="color:red">{{kittingError}}</p>
+            </div>
+            <div class="form-action">
+                <button mat-stroked-button  mat-button mat-dialog-close class="cancel-btn" (click)="cancelPopup()">Cancel</button>
+                <button mat-flat-button color="primary" class="next-btn">
+                    Kitting
+                </button>
+
+            </div>
+        </form>
+        </div>
+   </div>
+</div>
+</ng-template>

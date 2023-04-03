@@ -1,0 +1,248 @@
+<div>
+<div class="patient-list-page inner-scroll">
+    <div class="section-header">
+        <h2>Players List</h2>
+        <div class="header-items">
+            <button
+                mat-stroked-button
+                class="outline-btn"
+                (click)="addPlayer()"
+                matTooltip="Add a Match"
+            >
+                Add a Player
+            </button>
+        </div>
+    </div>
+    <div>
+        <div *ngFor="let item of playersList; index as i">{{i+1}}
+            {{item.player_name}}
+        </div>
+    </div>
+    <div>
+        <button *ngIf="tourDetails?.tour_status===0" (click)="startMatch()" class="start_match">Start Match</button>
+        <!-- <button *ngIf="tourRound>0" (click)="nextRound()" class="start_match">Next Round</button> -->
+    </div>
+    <!-- <div *ngIf="totalRounds" class="row">
+        <div class="matchColumn" *ngFor="let hero of mactchesCountList;index as i" cdkDropList
+        [cdkDropListData]="matchListArr[i].splitedItems"
+        class="example-list"
+        (cdkDropListDropped)="drop($event)">
+            <h2>Round {{i+1}}</h2>
+            <div *ngFor="let matchesList of matchListArr[i].splitedItems;" class="matchCard">
+                <mat-card class="splitedMatch" (click)="playMatch(matchesList)">
+                    <div *ngFor="let matches of matchesList index as j;" cdkDrag>
+                        <p>{{matches.player_name }}</p>
+                        <p class="vs{{j}}">Vs</p>
+                    </div>
+                </mat-card>
+            </div>
+            <div *ngFor="let matchesList of matchListArr[i].byeTeam;" class="matchCard" cdkDrag>
+                <mat-card>
+                    <p>{{matchesList.player_name}}</p>
+                    <p>Bye Team</p>
+                </mat-card>
+            </div>
+        </div>
+    </div> -->
+</div> 
+<ng-template #firstFormDialog>
+    <div class="dialog-content-wrapper">
+        <div class="add-patient-modal">
+            <div class="modal-header">
+                <button (click)="cancelPopup()" class="back-btn">
+                    <mat-icon aria-hidden="false" aria-label="Example home icon"
+                        >chevron_left</mat-icon
+                    >
+                    Back
+                </button>
+                <h2>Add a Player</h2>
+            </div>
+            <div class="modal-body">
+                <p *ngIf="emailError">{{ emailError }}</p>
+                <form [formGroup]="addPlayersForm">
+                    <div class="input-block">
+                        <p>Player Details</p>
+                        <div class="grid grid-cols-6">
+                            <div class="col-span-6 sm:col-span-3">
+                                <mat-form-field
+                                    class="w-full"
+                                    appearance="fill"
+                                >
+                                    <mat-label
+                                        >Player Name &nbsp;<span
+                                            style="color: red"
+                                            >*</span
+                                        ></mat-label
+                                    >
+                                    <input
+                                        matInput
+                                        formControlName="matchName"
+                                        id="firstName"
+                                        [(ngModel)]="modelmatchName"
+                                        [errorStateMatcher]="matcher"
+                                        (change)="
+                                            removeSpace(
+                                                addPlayersForm.value.matchName,
+                                                'modelFirstName'
+                                            )
+                                        "
+                                    />
+                                    <mat-error
+                                        *ngIf="
+                                        addPlayersForm
+                                                .get('matchName')
+                                                .hasError('required')
+                                        "
+                                    >
+                                        Please Enter Match Name
+                                    </mat-error>
+                                    <!-- <mat-error
+                                        *ngIf="
+                                            firstForm
+                                                .get('firstName')
+                                                .hasError('pattern')
+                                        "
+                                    >
+                                        Please Enter whithout space
+                                    </mat-error> -->
+                                    <!-- <mat-error
+                                        *ngIf="
+                                            firstForm
+                                                .get('firstName')
+                                                .hasError('whitespace')
+                                        "
+                                        >Please enter valid data</mat-error
+                                    > -->
+                                </mat-form-field>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-action">
+                        <button
+                            mat-stroked-button
+                            (click)="cancelPopup()"
+                            class="cancel-btn"
+                        >
+                            Cancel
+                        </button>
+                        <button
+                            (click)="onfirstFormSubmit()"
+                            mat-flat-button
+                            color="primary"
+                            class="next-btn"
+                        >
+                            Next
+                            <mat-icon
+                                aria-hidden="false"
+                                aria-label="Example home icon"
+                                >chevron_right</mat-icon
+                            >
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</ng-template>
+</div>
+<div>
+    <div id="ckdGroup" cdkDropListGroup>
+        <!-- <div class="example-container" *ngFor="let matchDetails of todo;">
+          <h2>To do</h2>
+      
+          <div
+            cdkDropList
+            [cdkDropListData]="matchDetails"
+            class="example-list"
+            (cdkDropListDropped)="drop($event)">
+            <div *ngFor="let item of matchDetails" cdkDrag>{{item.player_name}}</div>
+          </div>
+        </div> -->
+      
+        <!-- <div class="example-container">
+          <h2>Done</h2>
+      
+          <div
+            cdkDropList
+            [cdkDropListData]="done"
+            class="example-list"
+            (cdkDropListDropped)="drop($event)">
+
+            <div class="example-box" *ngFor="let item of done" cdkDrag>{{item}}</div>            
+          </div>
+        </div> -->
+      </div>
+</div>
+
+<div class="row" *ngIf="showData">
+    <div class="example-container" *ngFor="let matchList of matchListArr;index as i"  >
+        <h2>Round {{i+1}}</h2>
+        <!-- <div *ngFor="let matchesList of matchListArr[i].splitedItems;" class="matchCard">
+            <mat-card class="splitedMatch" (click)="playMatch(matchesList)">
+                <div *ngFor="let matches of matchesList index as j;" cdkDrag>
+                    <p>{{matches.player_name }}</p>
+                    <p class="vs{{j}}">Vs</p>
+                </div>
+            </mat-card>
+        </div>
+        <div *ngFor="let matchesList of matchListArr[i].byeTeam;" class="matchCard" cdkDrag>
+            <mat-card>
+                <p>{{matchesList.player_name}}</p>
+                <p>Bye Team</p>
+            </mat-card>
+        </div> -->
+
+        <!-- <div *ngFor="let rounds of roundsList[i];" class="matchCard" cdkDropList
+        [cdkDropListData]="todo"
+        class="example-list"
+        (cdkDropListDropped)="drop($event)" class="example-list">
+            <mat-card cdkDrag id="{{rounds+1}}">
+                <p>matches{{rounds+1}}</p>
+                <p>{{todo[rounds]}}</p>
+                <div *ngIf="todo[rounds].length==2">
+                    <p cdkDrag>this is two</p>
+                </div>
+                <div *ngIf="todo[rounds].length==1">
+                    <p cdkDrag>this is one</p>
+                </div>
+            </mat-card>
+        </div> -->
+
+        <div class="example-container" cdkDropListGroup>
+            <!-- <div
+              cdkDropList
+              [cdkDropListData]="todo"
+              class="example-list"
+              (cdkDropListDropped)="drop($event)">
+              <div *ngFor="let rounds of roundsList[i];"> -->
+                <!-- <mat-card> -->
+                    <!-- <div *ngFor="let matchDetails of todo;">
+                        <p *ngIf="rounds+1==matchDetails[0]" cdkDrag class="example-box">{{rounds+1}}======{{matchDetails[1]}}</p>
+                    </div> -->
+                <!-- </mat-card> -->
+                    <!-- <mat-card>
+                        <div cdkDrag class="example-box">{{rounds}}---{{todo[rounds]}}</div>
+                    </mat-card> -->
+                    
+              <!-- <div *ngFor="let item of todo" cdkDrag>{{item}}</div> -->
+            <!-- </div> -->
+            <!-- [ngClass]=" ((matchDetails[0].status!='3' && matchDetails.length==2) || (matchDetails[0].status=='3' && matchDetails.length==1) ) ? 'primary' : 'secondary'" -->
+            <div class="example-container" *ngFor="let matchDetails of matchList;index as j">
+                <h2>Match {{j+1}}</h2>
+                <p>{{matchDetails.length}}</p>
+                <div
+                  cdkDropList
+                  [cdkDropListData]="matchDetails"
+                  class="example-list"
+                  (cdkDropListDropped)="drop($event,j+1,matchDetails)" id="{{j}}"
+                  >
+                  <button (click)="playMatch(matchDetails)">Open</button>
+                  
+                  <div *ngFor="let item of matchDetails" cdkDrag [cdkDragData]="item" [cdkDragDisabled]="false">{{item.player_name}}</div>
+                </div>
+              </div>
+        </div>
+
+
+    </div>
+</div>  

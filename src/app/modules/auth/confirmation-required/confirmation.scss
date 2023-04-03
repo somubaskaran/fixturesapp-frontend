@@ -1,0 +1,43 @@
+.verification-page {
+    .auth-form {
+        .container-header {
+            margin-bottom: 1.25rem;
+            h2 {
+                font-size: 1.5625rem;
+                display: flex;
+                align-items: center;
+                margin-bottom: 0.5rem;
+                img {
+                    width: 1.8125rem;
+                    margin-left: 10px;
+                }
+            }
+            p {
+                font: 1rem "segoe-bold";
+                color: #f1f2f8;
+            }
+        }
+        .input-label {
+            margin-bottom: 8px;
+            font: 0.875rem "segoe-regular";
+            color: #f1f2f8;
+            span {
+                display: block;
+            }
+        }
+        .submit-btn {
+            margin-bottom: 1.5625rem;
+        }
+        .resent-container {
+            text-align: center;
+            .resent-btn {
+                padding: 0.8125rem 2.1875rem !important;
+                color: #ffffff;
+                border: 2px solid #bac529 !important;
+                font-weight: bold;
+                height: auto;
+                max-height: none;
+            }
+        }
+    }
+}

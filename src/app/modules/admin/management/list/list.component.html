@@ -1,0 +1,270 @@
+<ngx-spinner></ngx-spinner>
+<div class="admin-management-page inner-scroll">
+    <div class="section-header">
+        <div *ngIf="Message != ''" class="toast-container {{ MessageClass }}">
+                <p>{{ Message }}</p>
+            </div>
+        <h2>Admin Management</h2>
+        <div class="header-items">
+            <button mat-stroked-button class="outline-btn" matTooltip="Add Admin"  (click)="addAdmin()" >Add Admin</button>
+        </div>
+    </div>
+    <div class="section-filters">
+        <div class="left-col">
+            <div class="search-field">
+                <mat-form-field>
+                    <input matInput 
+                        placeholder="Enter a search item"
+                        name="search"
+                        (keyup)="handleSearch($event)"
+                        />
+                    <mat-icon matSuffix>
+                        <img src="../../../../assets/search.svg" alt="" />
+                    </mat-icon>
+                </mat-form-field>
+            </div>
+        </div>
+     
+    </div>
+    <div class="table-container">
+        <div class="table-wrapper">
+            <div class="table-block">
+                <ngx-datatable class="material fullscreen"
+             [rows]="(serverResponse | async) || []"
+             [headerHeight]="$any('auto')" 
+             [footerHeight]="0"
+             rowHeight="auto"
+             [scrollbarH]="true"
+            [count]="page1.totalElements"
+            [offset]="page1.pageNumber"
+            [limit]="page1.size"
+            (page)="setPage($event)"
+            (sort)="onSort($event)"
+             >
+                <ngx-datatable-column name="Admin Name" [sortable]="false" [width]="180">
+                    <ng-template let-row="row" let-rowIndex="rowIndex" ngx-datatable-cell-template>
+                        {{row.name}} 
+                    </ng-template>
+                </ngx-datatable-column>
+
+                <ngx-datatable-column [cellClass]="'text-hidden'" [sortable]="false" name="Email" [width]="200">
+                    <ng-template  let-row="row" let-rowIndex="rowIndex" ngx-datatable-cell-template>
+                        <span
+                    matTooltip="{{row.email}}"
+                        >
+                        {{row.email}}
+                            
+                        </span>
+                    </ng-template>
+                </ngx-datatable-column>  
+
+                <ngx-datatable-column name="Phone" [width]="220" [sortable]="false">
+                    <ng-template let-row="row" let-rowIndex="rowIndex" ngx-datatable-cell-template>
+                        <p>{{row.mobile_number}}</p>
+                    </ng-template>
+                </ngx-datatable-column>
+
+                <ngx-datatable-column name="Role" [sortable]="false" [width]="250">
+                    <ng-template let-row="row" let-rowIndex="rowIndex" ngx-datatable-cell-template>
+                        <span
+                  
+                        >
+                        {{row.role}}
+                            
+                        </span>
+                    </ng-template>
+                </ngx-datatable-column>
+                <ngx-datatable-column name="Status" [sortable]="false" [width]="170">
+                    <ng-template let-row="row" let-rowIndex="rowIndex" ngx-datatable-cell-template>
+                        <p
+                        *ngIf="row.status=='Active'" class="active"
+                    >
+                       {{row.status}}
+                    </p>
+                    <p
+                        *ngIf="row.status=='InActive'" class="inactive"
+                    >
+                    {{row.status}}
+                    </p>
+                    </ng-template>
+                </ngx-datatable-column>
+                <ngx-datatable-column name="Actions" [sortable]="false">
+                    <ng-template let-row="row" let-value="value" let-rowIndex="rowIndex" ngx-datatable-cell-template>
+                        <div class="action-col">
+                           
+                            <a class="custom-btn-edit mr-3" md-icon-button>
+                                <mat-icon svgIcon="feather:edit" matTooltip="Edit Admin" (click)="editAdmin(row)"></mat-icon>
+                            </a>
+                            <!-- <div class="toggle-switch" matTooltip="change admin status">
+                                <input type="checkbox"  hidden name="admin_status_{{rowIndex + 1}}"
+                                    id="toggle{{rowIndex}}"  [checked]="row.adminStatus == 0 ? true : false" (change)="changeStatus(row)" />
+                                <label class="toggle-slider" for="toggle{{rowIndex}}"></label>
+                            </div> -->
+                        </div>
+                    </ng-template>
+                </ngx-datatable-column>
+            </ngx-datatable>
+            </div>
+            <mat-paginator style="background: #f1f2f8;" [length]="total" [pageSize]="requestParam.pasgesize"
+            [pageSizeOptions]="[5, 10, 25, 100]" (page)="getServerData($event)" aria-label="Select page">
+        </mat-paginator>
+        </div>
+    </div>
+</div>
+
+<ng-template #addAdminModal>
+    <div class="dialog-content-wrapper">
+        <div class="add-patient-modal add-admin-modal">
+            <div class="modal-header">
+              
+                <h2 *ngIf="uuid==''">Add Admin</h2>
+                <h2 *ngIf="uuid!=''">Update Admin</h2>
+            </div>
+            <div class="modal-body">
+                <form 
+                    [formGroup]="addAdminForm"
+                >
+                    <div class="input-block">
+                        <p>Please provide the information below</p>
+                        <div class="grid grid-cols-6">
+                            <div class="col-span-6 sm:col-span-3">
+                                <mat-form-field class="w-full" appearance="fill">
+                                <mat-label>Name</mat-label>
+                                <input matInput value=""
+                                formControlName="adminName"
+                                id="adminName"
+                                >
+                                <mat-error
+                                *ngIf="
+                                addAdminForm
+                                        .get('adminName')
+                                        .hasError('required')
+                                "
+                            >
+                                Please Enter Name
+                            </mat-error>
+                            </mat-form-field>
+                      
+                            </div>
+                            <div class="col-span-6 sm:col-span-3">
+                                <mat-form-field class="w-full" appearance="fill">
+                                    <mat-label>Email</mat-label>
+                                    <input matInput 
+                                    formControlName="adminEmail"
+                                    id="adminEmail"  
+                                    >
+                                    <mat-error
+                                    *ngIf="
+                                    addAdminForm
+                                            .get('adminEmail')
+                                            .hasError(
+                                                'pattern'
+                                            )
+                                    "
+                                >
+                                    Please Enter the Valid
+                                    Email
+                                </mat-error>
+                                <mat-error
+                                    *ngIf="
+                                    addAdminForm
+                                            .get('adminEmail')
+                                            .hasError(
+                                                'required'
+                                            )
+                                    "
+                                >
+                                    Please Enter the Email
+                                </mat-error>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-span-6 sm:col-span-3">
+                                <mat-form-field class="w-full" appearance="fill">
+                                    <mat-label>Phone</mat-label>
+                                    <input matInput
+                                    formControlName="mobilePhone"
+                                    id="mobilePhone"
+                                    >
+                                    <mat-error
+                                    *ngIf="
+                                    addAdminForm
+                                            .get('mobilePhone')
+                                            .hasError(
+                                                'required'
+                                            )
+                                    "
+                                >
+                                    Please Enter the Phone Number
+                                </mat-error>
+                                <mat-error
+                                *ngIf="
+                                addAdminForm
+                                        .get('mobilePhone')
+                                        .hasError(
+                                            'pattern'
+                                        )
+                                "
+                            >
+                                Please Enter the Valid Phone
+                                Number
+                            </mat-error>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-span-6 sm:col-span-3">
+                                <mat-form-field class="w-full" appearance="fill">
+                                    <mat-label>Role</mat-label>
+                                    <mat-select formControlName="adminRole" id="adminRole" [errorStateMatcher]="matcher" [(ngModel)]="selectedRole">
+                                        <mat-option *ngFor="let option of roleList" [value]="option.id">{{option.name}}</mat-option>
+                                    </mat-select>
+                                    <mat-error *ngIf="addAdminForm.get('adminRole').hasError('required')">
+                                        Please Select Role
+                                    </mat-error>
+                                </mat-form-field>
+                            </div>  
+                            <div class="col-span-6 sm:col-span-3">
+                                <mat-form-field class="w-full" appearance="fill">
+                                    <mat-label>Status</mat-label>
+                                    <mat-select formControlName="adminStatus" id="adminStatus" [errorStateMatcher]="matcher" [(ngModel)]="selectedStatus" >
+                                        <mat-option *ngFor="let option of statusList" [value]="option.id">{{option.name}}</mat-option>
+                                    </mat-select>
+                                    <mat-error *ngIf="addAdminForm.get('adminStatus').hasError('required')">
+                                        Please Select Status
+                                    </mat-error>
+                                </mat-form-field>
+                            </div> 
+                        
+                        </div>
+                    </div>
+                 
+                    <div class="form-action">
+                        <button
+                            mat-stroked-button
+                            class="cancel-btn"
+                            (click)="cancelPopup()"
+                        >
+                            Cancel
+                        </button>
+                        <button *ngIf="uuid==''"
+                            mat-flat-button
+                            color="primary"
+                            class="next-btn"
+                            (click)="addPopup()"
+                        >
+                            Add
+                           
+                        </button>
+                        <button *ngIf="uuid!=''"
+                            mat-flat-button
+                            color="primary"
+                            class="next-btn"
+                            (click)="updatePopup()"
+                        >
+                            Update
+                           
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</ng-template>

@@ -1,0 +1,435 @@
+<div class="dashboard-page w-full">
+    <div class="section-header">
+        <h2>Dashboard</h2>
+        <div *ngIf="Message" class="toast-container {{ MessageClass }}">
+        <p>{{ Message }}</p>
+    </div>
+        <div class="section-filter-container">
+            <div class="search-field">
+                <!-- <mat-form-field>
+                    <input matInput placeholder="Enter a search item" />
+                    <mat-icon matSuffix>
+                        <img src="../../../../assets/search.svg" alt="" />
+                    </mat-icon>
+                </mat-form-field> -->
+            </div>
+        </div>
+    </div>
+    <style type="text/css">
+        .redbadge{
+    background: #ec4c47;
+    border-radius: 30px;
+    padding: 3px 10px;
+    font-size: 12px;
+    color: #fff;
+    font-weight: 500;
+    margin-right: 12px;
+}
+
+.greenbadge{
+    background: #1b8d57;
+    border-radius: 30px;
+    padding: 3px 10px;
+    font-size: 12px;
+    color: #fff;
+    font-weight: 500;
+}
+    </style>
+    <div class="dashboard-widget">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="widget-wrap" (click)="onMoveNotification()">
+                    <img
+                        class="widget-icon"
+                        src="../../../../assets/notification.svg"
+                        alt=""
+                    />
+                    <p class="label">Alerts</p>
+                    <div class="left-col">
+                        <span class="badge">{{alertCount}}</span>
+                    </div>
+                </div>
+                <div class="widget-wrap">
+                    <img
+                        class="widget-icon"
+                        src="../../../../assets/todo.svg"
+                        alt=""
+                        (click)="onMoveToDo()"
+                    />
+                    <p class="label" (click)="onMoveToDo()">To Do</p>
+                    <div class="left-col">
+                        <button class="add-btn" mat-icon-button>
+                            <img src="../../../../assets/add.svg" alt="" (click)="addToDo()"/>
+                        </button>
+                        <span class="badge" (click)="onMoveToDo()">{{todoCount}}</span>
+                    </div>
+                </div>
+                <div class="widget-wrap" (click)="onMoveNotification()">
+                    <img
+                        class="widget-icon"
+                        src="../../../../assets/threshold.svg"
+                        alt=""
+                    />
+                    <p class="label">Patient Threshold</p>
+                    <div class="left-col">
+                        <!-- <span *ngIf="thresoldCount" class="chart-status up">
+                            {{thresoldCount.redthresold}}
+                            <img src="../../../../assets/chart-up.svg" alt="" />
+                        </span> -->
+                        <span class="redbadge" *ngIf="thresoldCount">{{thresoldCount.redthresold}}</span>
+                        <!-- <span *ngIf="thresoldCount" class="chart-status down">
+                            {{thresoldCount.greenthresold}}
+                            <img
+                                src="../../../../assets/chart-down.svg"
+                                alt=""
+                            /> 
+                            </span>-->
+                        <span class="greenbadge" *ngIf="thresoldCount">{{thresoldCount.greenthresold}}</span>    
+                        
+                    </div>
+            </div>
+        </div>
+    </div>
+    <div class="report-filter">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 items-baseline">
+                <h3>This Month <span>({{startDate}} - {{endDate}})</span></h3>
+                <mat-form-field>
+                    <mat-select placeholder="Select Location" id="selectCity"
+                                class="selectCity"
+                                [(value)]="selectCity"
+                                (selectionChange)="onChangeCitySelcted($event)">
+                                <mat-option
+                                            *ngFor="let patients of patientList"
+                                            [value]="patients.city"
+                                            >{{ patients.city }}
+                                            </mat-option
+                                        >
+                        <!-- <mat-option
+                                    *ngFor="let month of patients"
+                                    [value]="month.city"
+                                >
+                                    {{ month.city }}
+                                </mat-option> -->
+                    </mat-select>
+                </mat-form-field>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <!-- <mat-form-field>
+                            <mat-select placeholder="From Date">
+                                <mat-option value="Chennai"> March </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                        <mat-form-field>
+                            <mat-select placeholder="To Date">
+                                <mat-option value="Chennai"> app </mat-option>
+                            </mat-select>
+                        </mat-form-field> -->
+                        <mat-form-field
+                                appearance="fill"
+                                class="outline-input period-picker ml-5"
+                                style="width: 14.5rem"
+                            >
+                                <mat-date-range-input
+                                    [formGroup]="range"
+                                    [rangePicker]="picker"
+                                    [max]="todayDate"
+                                >
+                                    <input
+                                        matStartDate
+                                        formControlName="start"
+                                        #dateRangeStart
+                                        placeholder="Select Period"
+                                        readonly
+                                    />
+                                    <input
+                                        matEndDate
+                                        formControlName="end"
+                                        #dateRangeEnd
+                                        (dateChange)="
+                                            dateRangeChange(
+                                                dateRangeStart,
+                                                dateRangeEnd
+                                            )
+                                        "
+                                        readonly
+                                    />
+                                </mat-date-range-input>
+                                <mat-datepicker-toggle matSuffix [for]="picker">
+                                    <img
+                                        matDatepickerToggleIcon
+                                        style="width: 15px"
+                                        src="../../../../../assets/calendar.svg"
+                                        alt=""
+                                    />
+                                </mat-datepicker-toggle>
+
+                                <mat-date-range-picker
+                                    #picker
+                                ></mat-date-range-picker>
+                        </mat-form-field>
+                </div>
+        </div>
+    </div>
+    <div class="chart-container">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="dashboard-chart">
+                    <div>
+                        <div class="left-col">
+                            <h4>Active and Inactive Patients</h4>
+                        </div>
+                        <div id="chart" *ngIf="chartOptions" style="margin-top: 45px;">
+                          <apx-chart
+                            [series]="chartOptions.series"
+                            [chart]="chartOptions.chart"
+                            [labels]="chartOptions.labels"
+                            [fill]="chartOptions.fill"
+                            [dataLabels]="chartOptions.dataLabels"
+                            [responsive]="chartOptions.responsive"
+                            [legend]="chartOptions.legend"
+                          ></apx-chart>
+                        </div>
+                    </div>
+                </div>
+                <div class="dashboard-chart" *ngIf="ChartOptionsline">
+                    <div class="">
+                        <div class="left-col">
+                            <h4>Patients Enrolled</h4>
+                        </div>
+                        <div id="chart">
+                          <apx-chart
+                            [series]="ChartOptionsline.series"
+                            [chart]="ChartOptionsline.chart"
+                            [xaxis]="ChartOptionsline.xaxis"
+                            [dataLabels]="ChartOptionsline.dataLabels"
+                            [grid]="ChartOptionsline.grid"
+                            [stroke]="ChartOptionsline.stroke"
+                            [title]="ChartOptionsline.title"
+                          ></apx-chart>
+                        </div>
+                    </div>
+                </div>
+                <div class="dashboard-chart">
+                    <div>
+                        <div class="left-col">
+                            <h4>Device Usage</h4>
+                        </div>
+                        <!-- <div class="right-col">
+                            <mat-form-field>
+                                <mat-select placeholder="Year">
+                                    <mat-option value="2021"> 2021 </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div> -->
+                        <div id="chart" *ngIf="ChartOptionsbar">
+                          <apx-chart
+                            [series]="ChartOptionsbar.series"
+                            [chart]="ChartOptionsbar.chart"
+                            [dataLabels]="ChartOptionsbar.dataLabels"
+                            [plotOptions]="ChartOptionsbar.plotOptions"
+                            [xaxis]="ChartOptionsbar.xaxis"
+                          ></apx-chart>
+                        </div>
+                    </div>
+            </div>
+        </div>
+    </div>
+</div>
+<ng-template #addToDoList>
+    <div class="dialog-content-wrapper">
+        <div class="kitting-modal">
+            <div class="modal-header">
+                <h2>Add To Do</h2>
+            </div>
+            <div class="modal-body">
+                <form
+                    [formGroup]="toDoForm"
+                    (ngSubmit)="toDoAddFormSubmit()"
+                    class="toDoForm"
+                >
+                    <div class="input-block">
+                        <div class="grid grid-cols-5 gap-5">
+                            <div class="col-span-1 sm:col-span-3">
+                                <mat-form-field
+                                    class="w-full"
+                                    appearance="fill"
+                                >
+                                    <mat-label>Select Item Type</mat-label>
+                                    <mat-select
+                                        formControlName="item_type"
+                                        id="item_type"
+                                        [(ngModel)]="item_type"
+                                        placeholder="Select"
+                                    >
+                                        <mat-option
+                                            *ngFor="let items of itemTypes"
+                                            [value]="items"
+                                            >{{ items }}</mat-option
+                                        >
+                                    </mat-select>
+                                    <mat-error
+                                        *ngIf="
+                                            toDoForm
+                                                .get('item_type')
+                                                .hasError('required')
+                                        "
+                                    >
+                                        Please Select Item Type
+                                    </mat-error>
+                                </mat-form-field>
+                            </div>
+
+                            <div class="col-span-1 sm:col-span-2">
+                                <mat-form-field
+                                    class="w-full"
+                                    appearance="fill"
+                                >
+                                    <mat-label>Due Date</mat-label>
+                                    <input
+                                        matInput
+                                        [matDatepicker]="picker"
+                                        formControlName="due_date"
+                                        id="due_date"
+                                        [(ngModel)]="due_date"
+                                        placeholder="Select"
+                                        [min]="todayDate"
+                                        readonly
+                                    />
+                                    <mat-error
+                                        *ngIf="
+                                            toDoForm
+                                                .get('due_date')
+                                                .hasError('required')
+                                        "
+                                    >
+                                        Please Choose Due Date
+                                    </mat-error>
+                                    <mat-datepicker-toggle
+                                        matSuffix
+                                        [for]="picker"
+                                    >
+                                        <img
+                                            matDatepickerToggleIcon
+                                            style="width: 15px"
+                                            src="../../../../../assets/calendar.svg"
+                                            alt=""
+                                        />
+                                    </mat-datepicker-toggle>
+                                    <mat-datepicker #picker></mat-datepicker>
+                                </mat-form-field>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="input-block">
+                        <div class="grid grid-cols-1">
+                            <div class="col-span-12 sm:col-span-1">
+                                <mat-form-field
+                                    class="w-full"
+                                    appearance="fill"
+                                >
+                                    <mat-label>Description</mat-label>
+                                    <textarea
+                                        matInput
+                                        formControlName="description"
+                                        id="description"
+                                        [(ngModel)]="description"
+                                        rows="4"
+                                        style="resize: none"
+                                    ></textarea>
+                                    <mat-error
+                                        *ngIf="
+                                            toDoForm
+                                                .get('description')
+                                                .hasError('required')
+                                        "
+                                    >
+                                        Please Enter Description
+                                    </mat-error>
+                                </mat-form-field>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="input-block">
+                        <div class="patient-link">
+                            <label> Link to Patient </label>
+                            <div
+                                class="toggle-switch"
+                                matTooltip="change patient status"
+                            >
+                                <input
+                                    type="checkbox"
+                                    hidden
+                                    formControlName="link_to_patient"
+                                    id="toggle"
+                                    (change)="link_to_patients($event)"
+                                    [(ngModel)]="link_to_patient"
+                                />
+                                <label
+                                    class="toggle-slider"
+                                    for="toggle"
+                                ></label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="input-block" *ngIf="showPatient">
+                        <div class="grid grid-cols-3">
+                            <div class="col-span-1 sm:col-span-2">
+                                <mat-form-field
+                                    class="w-full"
+                                    appearance="fill"
+                                >
+                                    <mat-label>Select Patient</mat-label>
+                                    <mat-select
+                                        formControlName="patient"
+                                        id="patient"
+                                        [(ngModel)]="patient"
+                                        placeholder="Select"
+                                    >
+                                        <mat-option
+                                            *ngFor="let patients of patientList"
+                                            [value]="patients.uuid"
+                                            >{{ patients.first_name }}
+                                            {{ patients.last_name }}</mat-option
+                                        >
+                                    </mat-select>
+                                    <mat-error
+                                        *ngIf="
+                                            toDoForm
+                                                .get('patient')
+                                                .hasError('required')
+                                        "
+                                    >
+                                        Please Select Patient
+                                    </mat-error>
+                                </mat-form-field>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- <div class="input-block">
+                        <p *ngIf="kittingError" style="color: red">
+                            {{ kittingError }}
+                        </p>
+                    </div> -->
+                    <div class="form-action justify-center">
+                        <button
+                            mat-stroked-button
+                            mat-button
+                            mat-dialog-close
+                            class="cancel-btn"
+                            (click)="cancelPopup()"
+                        >
+                            Cancel
+                        </button>
+                        <button
+                            mat-flat-button
+                            color="primary"
+                            class="next-btn"
+                        >
+                            Save
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</ng-template>

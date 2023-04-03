@@ -1,0 +1,54 @@
+.organization-datail-page {
+    .user-card {
+        display: flex;
+        padding: 25px 15px 25px 30px;
+        background: #fff;
+        box-shadow: 0px 6px 20px rgba(119, 149, 183, 0.149);
+        border-radius: 5px;
+        margin-bottom: 1.5625rem;
+        .organization-details {
+            flex: 1;
+            max-width: 600px;
+        }
+        .organization-card {
+            margin-right: 3.125rem;
+            .organization-img {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                width: 104px;
+                height: 104px;
+                border-radius: 50%;
+                overflow: hidden;
+                margin-bottom: 0.5rem;
+            }
+            .name {
+                text-align: center;
+                font-size: 1.125rem;
+                font-weight: 500;
+                color: rgba(19, 50, 87, 0.9);
+            }
+        }
+        .organization-item {
+            label {
+                font: 14px proxima-regular;
+                color: #57607b;
+            }
+            p {
+                font: 14px proxima-bold;
+                color: #57607b;
+            }
+        }
+    }
+    .organization-tab {
+        margin-bottom: 1.125rem;
+        .mat-button-toggle {
+            color: #57607b;
+            background: #f1f2f8;
+        }
+        .mat-button-toggle-checked {
+            background-color: #bac529;
+            --fuse-text-default-rgb: 255, 255, 255;
+        }
+    }
+}

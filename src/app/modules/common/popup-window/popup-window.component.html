@@ -1,0 +1,460 @@
+<div class="dialog-content-wrapper ">
+    <div class="add-patient-modal">
+        <div class="modal-header">
+            <button class="back-btn">
+                <mat-icon aria-hidden="false" aria-label="Example home icon">chevron_left</mat-icon>
+                Back
+            </button>
+            <h2>Add a Patient</h2>
+            <span class="index"><strong>Step 1</strong>/4</span>
+        </div>
+        <div class="modal-body">
+            <!-- Step 1 Start -->
+            <form>
+                <div class="input-block">
+                    <p>Please provide the information below</p>
+                    <div class="grid grid-cols-6 ">
+                        <div class="col-span-6 sm:col-span-3">
+                            <mat-form-field class="w-full" appearance="fill">
+                                <mat-label>Select Specialization</mat-label>
+                                <input matInput value="Sushi">
+                            </mat-form-field>
+                        </div>
+                        <div class="col-span-6 sm:col-span-3">
+                            <mat-form-field class="w-full" appearance="fill">
+                                <mat-label>Select Doctor</mat-label>
+                                <input matInput value="Sushi">
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </div>
+                <div class="input-block">
+                    <p>Patient Details</p>
+                    <div class="grid grid-cols-6">
+                        <div class="col-span-6 sm:col-span-3">
+                            <mat-form-field class="w-full" appearance="fill">
+                                <mat-label>First Name</mat-label>
+                                <input matInput>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-span-6 sm:col-span-3">
+                            <mat-form-field class="w-full" appearance="fill">
+                                <mat-label>Last Name</mat-label>
+                                <input matInput>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-span-6 sm:col-span-3">
+                            Date of birth
+                            <!-- <mat-form-field class="example-full-width" appearance="fill">
+                                <mat-label>Choose a date</mat-label>
+                                <input matInput [matDatepicker]="picker">
+                                <mat-datepicker-toggle matSuffix [for]="picker">
+                                    <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
+                                </mat-datepicker-toggle>
+                                <mat-datepicker #picker></mat-datepicker>
+                            </mat-form-field> -->
+
+                        </div>
+                        <div class="col-span-6 sm:col-span-3">
+                            <mat-form-field class="w-full" appearance="fill">
+                                <mat-label>Email (mat-optional)</mat-label>
+                                <input matInput>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-span-6 sm:col-span-3">
+                            <mat-form-field class="w-full" appearance="fill">
+                                <mat-label>Mobile phone number</mat-label>
+                                <input matInput>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-span-6 sm:col-span-3">
+                            <mat-form-field class="w-full" appearance="fill">
+                                <mat-label>Home phone number (mat-optional)</mat-label>
+                                <input matInput>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-span-6">
+                            <mat-label>Does patient consent to be contacted?</mat-label>
+                            <mat-radio-group [color]="'primary'" aria-label="Select an mat-option">
+                                <mat-radio-button value="1">Yes</mat-radio-button>
+                                <mat-radio-button value="2">No</mat-radio-button>
+                            </mat-radio-group>
+                        </div>
+                        <div class="col-span-6 sm:col-span-3">
+                            <mat-form-field class="w-full" appearance="fill">
+                                <mat-label>MRN</mat-label>
+                                <input matInput>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-span-6 sm:col-span-3">
+                            <mat-form-field class="w-full" appearance="fill">
+                                <mat-label>Gender</mat-label>
+                                <mat-select>
+                                    <mat-option value="volvo">Volvo</mat-option>
+                                    <mat-option value="saab">Saab</mat-option>
+                                    <mat-option value="mercedes">Mercedes</mat-option>
+                                    <mat-option value="audi">Audi</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-span-6 sm:col-span-3">
+                            <mat-form-field class="w-full" appearance="fill">
+                                <mat-label>ICD-10 Code</mat-label>
+                                <input matInput>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-span-6 sm:col-span-3">
+                            <mat-label>Preferred language</mat-label>
+                            <mat-radio-group [color]="'primary'" aria-label="Select an mat-option">
+                                <mat-radio-button value="1">English</mat-radio-button>
+                                <mat-radio-button value="2">Spanish</mat-radio-button>
+                            </mat-radio-group>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-action">
+                    <button mat-stroked-button  mat-button mat-dialog-close class="cancel-btn">Cancel</button>
+                    <button mat-flat-button color="primary" class="next-btn">
+                        Next
+                        <mat-icon aria-hidden="false" aria-label="Example home icon">chevron_right</mat-icon>
+
+                    </button>
+
+                </div>
+            </form>
+            <!-- Step 1 End -->
+            <!-- Step 2 Start -->
+            <!-- <form>
+            <div class="input-block">
+                <p>Primary Address</p>
+                <div class="grid grid-cols-6 ">
+                    <div class="col-span-6 sm:col-span-3">
+                        <mat-form-field class="w-full" appearance="fill">
+                            <mat-label>Address Line 1</mat-label>
+                            <input matInput  value="Sushi">
+                          </mat-form-field>
+                    </div>
+                    <div class="col-span-6 sm:col-span-3">
+                        <mat-form-field class="w-full" appearance="fill">
+                            <mat-label>Address Line 2</mat-label>
+                            <input matInput  value="Sushi">
+                          </mat-form-field>
+                    </div>
+                    <div class="col-span-6 sm:col-span-3">
+                        <mat-form-field class="w-full" appearance="fill">
+                            <mat-label>City</mat-label>
+                            <input matInput  value="Sushi">
+                          </mat-form-field>
+                    </div>
+                    <div class="col-span-6 sm:col-span-3">
+                        <mat-form-field class="w-full" appearance="fill">
+                            <mat-label>State</mat-label>
+                            <mat-select >
+                              <mat-option value="volvo">Volvo</mat-option>
+                              <mat-option value="saab">Saab</mat-option>
+                              <mat-option value="mercedes">Mercedes</mat-option>
+                              <mat-option value="audi">Audi</mat-option>
+                            </mat-select>
+                          </mat-form-field>
+                    </div>
+                    <div class="col-span-6 sm:col-span-3">
+                        <mat-form-field class="w-full" appearance="fill">
+                            <mat-label>Zip</mat-label>
+                            <input matInput  value="Sushi">
+                          </mat-form-field>
+                    </div>
+                </div>
+            </div>
+                <mat-checkbox
+                [color]="'primary'"
+            >
+            Shipping address is different than the primary address
+            </mat-checkbox>
+            <div class="form-action">
+                <button mat-stroked-button class="cancel-btn">Cancel</button>
+                <button mat-flat-button color="primary" class="next-btn">
+                    Next
+            <mat-icon aria-hidden="false" aria-label="Example home icon">chevron_right</mat-icon>
+
+                </button>
+
+            </div>
+          </form> -->
+            <!-- Step 2 End -->
+            <!-- Step 3 Start -->
+
+            <!-- <form>
+            <div class="input-block">
+                <p>Select Devices</p>
+                <div class="grid grid-cols-6 ">
+                    <div class="col-span-6">
+                        <mat-checkbox
+                        [color]="'primary'"
+                        class="mb-3"
+                    >
+                    Blood Pressure Monitor
+                    </mat-checkbox>
+                    <mat-radio-group class="w-full custom-radio-field" [color]="'primary'"  aria-label="Select an mat-option">
+                        <mat-radio-button class="w-1/2 m-0" value="1">
+                            <div class="radio-btn-content">
+                                <div class="radio-content">
+                                        <span>Regular cuff</span>
+                                        <img src="../../../../assets/info.svg" alt=""
+                                        matTooltip="Info about the action">
+                                </div>
+                                <p>9" to 17" /22 to 42cm</p>
+                            </div>
+                        </mat-radio-button>
+                        <mat-radio-button class="w-1/2 m-0" value="2">
+                            <div class="radio-btn-content">
+                                <div class="radio-content">
+                                        <span>Large cuff</span>
+                                        <img src="../../../../assets/info.svg" alt=""
+                                        matTooltip="Info about the action">
+                                </div>
+                                <p>17" to 20" /42 to 50cm</p>
+                            </div>
+                        </mat-radio-button>
+                      </mat-radio-group>
+                    </div>
+                    <div class="col-span-6">
+                        <mat-label>Does the patient have a pacemaker, implanted defibrillator, or other implanted metallic or electronic device?</mat-label>
+                        <mat-radio-group [color]="'primary'"  aria-label="Select an mat-option">
+                            <mat-radio-button value="1">Yes</mat-radio-button>
+                            <mat-radio-button value="2">No</mat-radio-button>
+                          </mat-radio-group>
+                        </div>
+                        <div class="col-span-6">
+                            <mat-checkbox
+                            [color]="'primary'"
+                            class="mb-3"
+                        >
+                        Weight Scale
+                        </mat-checkbox>
+                        <mat-radio-group class="w-full custom-radio-field" [color]="'primary'"  aria-label="Select an mat-option">
+                            <mat-radio-button class="w-1/2 m-0" value="1">
+                                <div class="radio-btn-content">
+                                    <div class="radio-content">
+                                            <span>Regular</span>
+                                            <img src="../../../../assets/info.svg" alt=""
+                                            matTooltip="Info about the action">
+                                    </div>
+                                    <p>5 to 297 lbs / 2 - 135 kgs</p>
+                                </div>
+                            </mat-radio-button>
+                            <mat-radio-button class="w-1/2 m-0" value="2">
+                                <div class="radio-btn-content">
+                                    <div class="radio-content">
+                                            <span>Large</span>
+                                            <img src="../../../../assets/info.svg" alt=""
+                                            matTooltip="Info about the action">
+                                    </div>
+                                    <p>11 to 550 lbs / 5 - 250 kgs</p>
+                                </div>
+                            </mat-radio-button>
+                          </mat-radio-group>
+                        </div>
+                </div>
+            </div>
+           
+            <div class="form-action">
+                <button mat-stroked-button class="cancel-btn">Cancel</button>
+                <button mat-flat-button color="primary" class="next-btn">
+                    Next
+            <mat-icon aria-hidden="false" aria-label="Example home icon">chevron_right</mat-icon>
+
+                </button>
+
+            </div>
+          </form> -->
+            <!-- Step 3 End -->
+            <!-- Step 4 Start -->
+            <!-- <form>
+         
+            <div class="input-block">
+                <div class="flex justify-between">
+                    <p style="font-size: 1.125rem;">Select Threshold</p>
+                    <mat-checkbox
+                    [color]="'primary'"
+                >
+                I will set the threshold later
+                </mat-checkbox>
+                </div>
+                <p>Blood Pressure Threshold (single reading)</p>
+                <div class="grid grid-cols-6">
+                    <div class="col-span-6 sm:col-span-3">
+                        <mat-form-field class="w-full" appearance="fill">
+                            <mat-label>Sys high (mmHg)</mat-label>
+                            <input matInput >
+                          </mat-form-field>
+                    </div>
+                    <div class="col-span-6 sm:col-span-3">
+                        <mat-form-field class="w-full" appearance="fill">
+                            <mat-label>Sys low (mmHg)</mat-label>
+                            <input matInput >
+                          </mat-form-field>
+                    </div>
+                   
+                    <div class="col-span-6 sm:col-span-3">
+                        <mat-form-field class="w-full" appearance="fill">
+                            <mat-label>Dia high (mmHg)</mat-label>
+                            <input matInput  >
+                          </mat-form-field>
+                    </div>
+                    <div class="col-span-6 sm:col-span-3">
+                        <mat-form-field class="w-full" appearance="fill">
+                            <mat-label>Dia low (mmHg)</mat-label>
+                            <input matInput  >
+                          </mat-form-field>
+                    </div>
+                    <div class="col-span-6 sm:col-span-3">
+                        <mat-form-field class="w-full" appearance="fill">
+                            <mat-label>Home phone number (mat-optional)</mat-label>
+                            <input matInput >
+                          </mat-form-field>
+                    </div>
+               
+                </div>
+                <div class="flex">
+                    <p class="mr-3">Blood Pressure Threshold (average)</p>
+                    <mat-checkbox
+                    [color]="'primary'"
+                    class="mr-7"
+                >
+                7 Days
+                </mat-checkbox>
+                <mat-checkbox
+                [color]="'primary'"
+            >
+            10 Readings
+            </mat-checkbox>
+                </div>
+                <div class="grid grid-cols-6">
+                    <div class="col-span-6 sm:col-span-3">
+                        <mat-form-field class="w-full" appearance="fill">
+                            <mat-label>Sys high (mmHg)</mat-label>
+                            <input matInput >
+                          </mat-form-field>
+                    </div>
+                    <div class="col-span-6 sm:col-span-3">
+                        <mat-form-field class="w-full" appearance="fill">
+                            <mat-label>Sys low (mmHg)</mat-label>
+                            <input matInput >
+                          </mat-form-field>
+                    </div>
+                   
+                    <div class="col-span-6 sm:col-span-3">
+                        <mat-form-field class="w-full" appearance="fill">
+                            <mat-label>Dia high (mmHg)</mat-label>
+                            <input matInput  >
+                          </mat-form-field>
+                    </div>
+                    <div class="col-span-6 sm:col-span-3">
+                        <mat-form-field class="w-full" appearance="fill">
+                            <mat-label>Dia low (mmHg)</mat-label>
+                            <input matInput  >
+                          </mat-form-field>
+                    </div>
+            
+                </div>
+            </div>
+            <div class="input-block">
+                <p>Weight Gain Threshold</p>
+                <div class="grid grid-cols-6">
+                    <div class="col-span-6 sm:col-span-3">
+                        <mat-form-field class="w-full" appearance="fill">
+                            <mat-label>24 hr (lbs)</mat-label>
+                            <input matInput >
+                          </mat-form-field>
+                    </div>
+                    <div class="col-span-6 sm:col-span-3">
+                        <mat-form-field class="w-full" appearance="fill">
+                            <mat-label>72 hr (lbs)</mat-label>
+                            <input matInput >
+                          </mat-form-field>
+                    </div>
+                </div>
+</div>
+            <div class="form-action">
+                <button mat-stroked-button class="cancel-btn">Cancel</button>
+                <button mat-flat-button color="primary" class="next-btn">
+                    View Summary
+            <mat-icon aria-hidden="false" aria-label="Example home icon">chevron_right</mat-icon>
+
+                </button>
+
+            </div>
+          </form>  -->
+            <!-- Step 4 End -->
+        </div>
+    </div>
+
+    <!-- Summary Start -->
+
+    <!-- <div class="summary-block">
+    <div class="modal-header">
+        <h2>Patient Summary</h2>
+        <button mat-stroked-button class="edit-btn">Edit</button>
+    </div>
+    <div class="modal-body">
+        <div class="grid grid-cols-6 gap-6">
+            <div class="col-span-3">
+                <label>Patient Name</label>
+                <p>Emma Weasley</p>
+            </div>
+            <div class="col-span-3">
+                <label>Date of birth</label>
+                <p>Jan 14, 1978</p>
+            </div>
+            <div class="col-span-3">
+                <label>Email</label>
+                <p>NA</p>
+            </div>
+            <div class="col-span-3">
+                <label>Mobile phone number</label>
+                <p>(974)-236-3230</p>
+            </div>
+            <div class="col-span-3">
+                <label>Does patient consent to be contacted?</label>
+                <p>No</p>
+            </div>
+            <div class="col-span-3">
+                <label>Address</label>
+                <p>2 N Central Roosevelt Pheonix, AZ, 85281</p>
+            </div>
+            <div class="col-span-3">
+                <label>Gender</label>
+                <p>Female</p>
+            </div>
+            <div class="col-span-3">
+                <label>MRN</label>
+                <p>12345</p>
+            </div>
+            <div class="col-span-3">
+                <label>ICD-10 Code</label>
+                <p>101</p>
+            </div>
+            <div class="col-span-3">
+                <label>Devices</label>
+                <p>Blood Pressure: Regular cuff Weight: Large</p>
+            </div>
+            <div class="col-span-3">
+                <label>Department</label>
+                <p>Cardiology</p>
+            </div>
+            <div class="col-span-3">
+                <label>Location</label>
+                <p>Orlando</p>
+            </div>
+        </div>
+        <div class="form-action">
+            <button mat-stroked-button class="cancel-btn">Cancel</button>
+            <button mat-flat-button color="primary" class="next-btn">
+                Add Patient
+            </button>
+    
+        </div>
+    </div>
+</div> -->
+    <!-- Summary End -->
+</div>

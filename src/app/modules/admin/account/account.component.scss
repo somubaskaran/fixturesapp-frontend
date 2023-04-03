@@ -1,0 +1,16 @@
+.patient-list-page {
+    width: 100%;
+}
+.mat-paginator-container {
+    display: flex;
+    align-items: center !important;
+    justify-content: center !important;
+}
+.no-data-available {
+    width: 100%;
+    text-align: center;
+}
+.patientView{
+	cursor: pointer;
+  color: #3b0548;
+}

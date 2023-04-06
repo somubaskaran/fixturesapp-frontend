@@ -182,10 +182,10 @@ export class MatchService {
     return of(decryptData);
     }));
   }
-  getupdateByeMatchNumber(request) {
+  updateMatchToMatch(request) {
     const accessToken = "";
     let api_url = '';
-    api_url = environment.API_BASE_URL + '' + environment.API_ADMIN_URL + 'match/updatedByeMatchNumber';
+    api_url = environment.API_BASE_URL + '' + environment.API_ADMIN_URL + 'match/updateMatchToMatch';
     return this._httpClient.post<any>(api_url, request, {
     headers: {
         'content-type': 'application/json',

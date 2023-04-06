@@ -93,13 +93,35 @@ export class MatchdetailComponent implements OnInit {
             event.currentIndex,
           );
         }
-        console.log(this.mactchesCountList);
+        // console.log("match count--/   "+this.mactchesCountList[0]);
+        // console.log("from box----/    "+(Number(event.previousContainer.id)+1));
+        // console.log("tooo box---/     "+value);
+        var fromBox = (Number(event.previousContainer.id)+1);
+        var toBox = value;
+        var totalMatch = this.mactchesCountList[0];
+
+        if(fromBox<=totalMatch && toBox<=totalMatch){
+            console.log("Match to Match");
+            this.updateMatchToMatch(event.item.data,value)
+        }else if(fromBox>totalMatch && toBox>totalMatch){
+            console.log("Bye to Bye");
+        }else if(fromBox<=totalMatch && toBox>totalMatch){
+            console.log("Match to Bye");
+        }else if(fromBox>totalMatch && toBox<=totalMatch){
+            console.log("Bye to Match");
+        }
         return false;
-        // if(this.mactchesCountList[0]<value){
-        //     this.updateByeMatch(event.item.data,value);
-        // }else{
-        //     this.changeMatch(event.item.data,value);
-        // }
+        if(this.mactchesCountList[0]<=value){
+            //this.updateByeMatch(event.item.data,value);
+            console.log('aaaaaa');
+            console.log(value);
+            return false;
+        }else{
+            console.log('bbbbbbb');
+            console.log(value);
+            return false;
+            //this.changeMatch(event.item.data,value);
+        }
       }
 
     ngOnInit(): void {
@@ -128,22 +150,35 @@ export class MatchdetailComponent implements OnInit {
         );
         this.matchservice.getUpdatedMatchNumber(encryptedRequest).subscribe(
             (data: any) => {
-                this.getTournmentDetail(this.tournmentId);
+               // this.getTournmentDetail(this.tournmentId);
         });
     }
-    updateByeMatch(fromData, toData){
+    updateMatchToMatch(fromData,toData){
         var requestParam = {
             matchOldData : fromData,
-            matchUpdatedData : toData,
+            matchNewId : toData,
         }
         const encryptedRequest = this.encrypt.encryptData(
             JSON.stringify(requestParam)
         );
-        this.matchservice.getupdateByeMatchNumber(encryptedRequest).subscribe(
+        this.matchservice.updateMatchToMatch(encryptedRequest).subscribe(
             (data: any) => {
-                this.getTournmentDetail(this.tournmentId);
+               // this.getTournmentDetail(this.tournmentId);
         });
     }
+    // updateByeMatch(fromData, toData){
+    //     var requestParam = {
+    //         matchOldData : fromData,
+    //         matchUpdatedData : toData,
+    //     }
+    //     const encryptedRequest = this.encrypt.encryptData(
+    //         JSON.stringify(requestParam)
+    //     );
+    //     this.matchservice.getupdateByeMatchNumber(encryptedRequest).subscribe(
+    //         (data: any) => {
+    //             this.getTournmentDetail(this.tournmentId);
+    //     });
+    // }
     goToNextRound(item) {
         var requestParam = {
             item : item,

@@ -137,6 +137,21 @@ export class MatchService {
           return of(decryptData);
         }));
     }
+    readyToPlayMatch(request){
+      const accessToken = "";
+        let api_url = '';
+        api_url = environment.API_BASE_URL + '' + environment.API_ADMIN_URL + 'match/readyToPlayMatch';
+        return this._httpClient.post<any>(api_url, request, {
+          headers: {
+            'content-type': 'application/json',
+            'authorization': 'Bearer ' + accessToken
+          },
+        }).pipe(switchMap((data: any) => {
+          const decryptData = this.encrypt.decryptData(data.data);
+          console.log(decryptData);
+          return of(decryptData);
+        }));
+    }
     matchDetails(request){
       const accessToken = "";
         let api_url = '';
@@ -186,6 +201,36 @@ export class MatchService {
     const accessToken = "";
     let api_url = '';
     api_url = environment.API_BASE_URL + '' + environment.API_ADMIN_URL + 'match/updateMatchToMatch';
+    return this._httpClient.post<any>(api_url, request, {
+    headers: {
+        'content-type': 'application/json',
+        'authorization': 'Bearer ' + accessToken
+    },
+    }).pipe(switchMap((data: any) => {
+    const decryptData = this.encrypt.decryptData(data.data);
+    console.log(decryptData);
+    return of(decryptData);
+    }));
+  }
+  updateByeToMatch(request) {
+    const accessToken = "";
+    let api_url = '';
+    api_url = environment.API_BASE_URL + '' + environment.API_ADMIN_URL + 'match/updateByeToMatch';
+    return this._httpClient.post<any>(api_url, request, {
+    headers: {
+        'content-type': 'application/json',
+        'authorization': 'Bearer ' + accessToken
+    },
+    }).pipe(switchMap((data: any) => {
+    const decryptData = this.encrypt.decryptData(data.data);
+    console.log(decryptData);
+    return of(decryptData);
+    }));
+  }
+  updateMatchToBye(request) {
+    const accessToken = "";
+    let api_url = '';
+    api_url = environment.API_BASE_URL + '' + environment.API_ADMIN_URL + 'match/updateMatchToBye';
     return this._httpClient.post<any>(api_url, request, {
     headers: {
         'content-type': 'application/json',

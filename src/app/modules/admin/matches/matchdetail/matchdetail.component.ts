@@ -102,13 +102,16 @@ export class MatchdetailComponent implements OnInit {
 
         if(fromBox<=totalMatch && toBox<=totalMatch){
             console.log("Match to Match");
-            this.updateMatchToMatch(event.item.data,value)
+            this.updateMatchToMatch(event.item.data,value);
         }else if(fromBox>totalMatch && toBox>totalMatch){
             console.log("Bye to Bye");
+            this.updateMatchToBye(event.item.data,value);
         }else if(fromBox<=totalMatch && toBox>totalMatch){
             console.log("Match to Bye");
+            this.updateMatchToBye(event.item.data,value);
         }else if(fromBox>totalMatch && toBox<=totalMatch){
             console.log("Bye to Match");
+            this.updateByeToMatch(event.item.data,value);
         }
         return false;
         if(this.mactchesCountList[0]<=value){
@@ -163,7 +166,33 @@ export class MatchdetailComponent implements OnInit {
         );
         this.matchservice.updateMatchToMatch(encryptedRequest).subscribe(
             (data: any) => {
-               // this.getTournmentDetail(this.tournmentId);
+                this.getTournmentDetail(this.tournmentId);
+        });
+    }
+    updateByeToMatch(fromData,toData){
+        var requestParam = {
+            matchOldData : fromData,
+            matchNewId : toData,
+        }
+        const encryptedRequest = this.encrypt.encryptData(
+            JSON.stringify(requestParam)
+        );
+        this.matchservice.updateByeToMatch(encryptedRequest).subscribe(
+            (data: any) => {
+                this.getTournmentDetail(this.tournmentId);
+        });
+    }
+    updateMatchToBye(fromData,toData){
+        var requestParam = {
+            matchOldData : fromData,
+            matchNewId : toData,
+        }
+        const encryptedRequest = this.encrypt.encryptData(
+            JSON.stringify(requestParam)
+        );
+        this.matchservice.updateMatchToBye(encryptedRequest).subscribe(
+            (data: any) => {
+                this.getTournmentDetail(this.tournmentId);
         });
     }
     // updateByeMatch(fromData, toData){
@@ -223,18 +252,27 @@ export class MatchdetailComponent implements OnInit {
                 //         tempArr.push( Array(value).fill(0).map((x,i)=>i));
                 //     }
                 //  })
-                this.matchListArr.forEach(function(value){
-                    value.forEach(function(data){
+                this.matchListArr.forEach(function(value,parentIndex){
+                    value.forEach(function(data,index){
                         data.forEach(function(arr){
-                            if(arr.status=='1'){
+                            if(arr.played_status=='1'){
                                 arr.disabled = true;
                             }else{
                                 arr.disabled = false;
                             }
                         });
+                        if(parentIndex==0){
+                            if(index<5){
+                                data.thisMatch = 'normal';
+                            }else{
+                                data.thisMatch = 'bye';
+                            }
+                        }else{
+                            data.thisMatch = 'normal';
+                        }
                     });
                 });
-                
+                console.log(this.matchListArr);
                  if(this.matchListArr[0][0] != ''){
                     this.showData = true;
                  }
@@ -327,9 +365,29 @@ export class MatchdetailComponent implements OnInit {
     //     );    
     // }
     playMatch(matchesList) {
-        console.log(matchesList);
-        this.router.navigate(['/admin/matches/play-match'], {
-            queryParams: { team_one: matchesList[0].match_id, team_two: matchesList[1].match_id },
+        if(matchesList.length==2){
+            if(matchesList[0].player_name!=null){
+                // this.router.navigate(['/admin/matches/play-match'], {
+                //     queryParams: { team_one: matchesList[0].match_id, team_two: matchesList[1].match_id },
+                // });
+                this.readyToPlayMatch(matchesList);
+            }
+        }
+    }
+    readyToPlayMatch(matchesList){
+        var sendData = {
+            matchesList : matchesList[0],
+        }
+        const encryptedRequest = this.encrypt.encryptData(
+            JSON.stringify(sendData)
+        );
+        this.matchservice.readyToPlayMatch(encryptedRequest).subscribe(
+            (data: any) => {
+                this.elements.closeAll();
+            //this.getTournmentDetail(this.tournmentId);
+        },
+        (error: any) => {
+            
         });
     }
 }

@@ -230,15 +230,16 @@
             <div class="example-container" *ngFor="let matchDetails of matchList;index as j">
                 <h2>Match {{j+1}}</h2>
                 <p>{{matchDetails.length}}</p>
-                <div
-                  cdkDropList
-                  [cdkDropListData]="matchDetails"
-                  class="example-list"
-                  (cdkDropListDropped)="drop($event,j+1,matchDetails)" id="{{j}}"
-                  >
-                  <button (click)="playMatch(matchDetails)">Open</button>
-                  
-                  <div *ngFor="let item of matchDetails" cdkDrag [cdkDragData]="item" [cdkDragDisabled]="false">{{item.player_name}}</div>
+                <div [ngClass]="(matchDetails.thisMatch=='normal' && matchDetails.length==2) || (matchDetails.thisMatch=='bye' && matchDetails.length==1) ? 'success' : 'error' ">
+                    <div
+                        cdkDropList
+                        [cdkDropListData]="matchDetails"
+                        class="example-list"
+                        (cdkDropListDropped)="drop($event,j+1,matchDetails)" id="{{j}}"
+                        >
+                        <button (click)="playMatch(matchDetails)" [ngClass]="(matchDetails.thisMatch=='normal' && matchDetails.length==2) || (matchDetails.thisMatch=='bye' && matchDetails.length==1) ? 'show' : 'hide' ">Open</button>
+                            <div *ngFor="let item of matchDetails" cdkDrag [cdkDragData]="item" [cdkDragDisabled]="item.disabled">{{item.player_name}}</div>
+                        </div>
                 </div>
               </div>
         </div>

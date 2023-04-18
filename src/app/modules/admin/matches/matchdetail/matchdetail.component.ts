@@ -72,47 +72,50 @@ export class MatchdetailComponent implements OnInit {
     }
     
     drop(event: CdkDragDrop<string[]>,value,matchDetails) {
-        // console.log(event.item.data);
-        // console.log('New match'+value);
-        // console.log('length'+length);
-        // console.log(matchDetails);
-        if (event.previousContainer === event.container) {
-            // console.log(event.container.data);
-            // console.log(event.previousContainer.data);
-            // console.log(event.previousIndex);
-            // console.log(event.currentIndex);
-          moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
-        } else {
-            // console.log(event.container.data);
-            // console.log(event.dropPoint);
-            // console.log(event.previousIndex);
-            // console.log(event.currentIndex);
-          transferArrayItem(
-            event.previousContainer.data,
-            event.container.data,
-            event.previousIndex,
-            event.currentIndex,
-          );
-        }
-        // console.log("match count--/   "+this.mactchesCountList[0]);
-        // console.log("from box----/    "+(Number(event.previousContainer.id)+1));
-        // console.log("tooo box---/     "+value);
-        var fromBox = (Number(event.previousContainer.id)+1);
-        var toBox = value;
-        var totalMatch = this.mactchesCountList[0];
+        if(event.item.data.round_id=='1'){
+            //console.log(event.item.data.round_id);
+            //console.log('New match'+value);
+            // console.log('length'+length);
+            // console.log(matchDetails);
+            if (event.previousContainer === event.container) {
+                // console.log(event.container.data);
+                // console.log(event.previousContainer.data);
+                // console.log(event.previousIndex);
+                // console.log(event.currentIndex);
+            moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
+            } else {
+                // console.log(event.container.data);
+                // console.log(event.dropPoint);
+                // console.log(event.previousIndex);
+                // console.log(event.currentIndex);
+            transferArrayItem(
+                event.previousContainer.data,
+                event.container.data,
+                event.previousIndex,
+                event.currentIndex,
+            );
+            }
+            // console.log("match count--/   "+this.mactchesCountList[0]);
+            // console.log("from box----/    "+(Number(event.previousContainer.id)+1));
+            // console.log("tooo box---/     "+value);
+        
+            var fromBox = (Number(event.previousContainer.id)+1);
+            var toBox = value;
+            var totalMatch = this.mactchesCountList[0];
 
-        if(fromBox<=totalMatch && toBox<=totalMatch){
-            console.log("Match to Match");
-            this.updateMatchToMatch(event.item.data,value);
-        }else if(fromBox>totalMatch && toBox>totalMatch){
-            console.log("Bye to Bye");
-            this.updateMatchToBye(event.item.data,value);
-        }else if(fromBox<=totalMatch && toBox>totalMatch){
-            console.log("Match to Bye");
-            this.updateMatchToBye(event.item.data,value);
-        }else if(fromBox>totalMatch && toBox<=totalMatch){
-            console.log("Bye to Match");
-            this.updateByeToMatch(event.item.data,value);
+            if(fromBox<=totalMatch && toBox<=totalMatch){
+                console.log("Match to Match");
+                this.updateMatchToMatch(event.item.data,value);
+            }else if(fromBox>totalMatch && toBox>totalMatch){
+                console.log("Bye to Bye");
+                this.updateMatchToBye(event.item.data,value);
+            }else if(fromBox<=totalMatch && toBox>totalMatch){
+                console.log("Match to Bye");
+                this.updateMatchToBye(event.item.data,value);
+            }else if(fromBox>totalMatch && toBox<=totalMatch){
+                console.log("Bye to Match");
+                this.updateByeToMatch(event.item.data,value);
+            }
         }
       }
 
@@ -245,10 +248,10 @@ export class MatchdetailComponent implements OnInit {
                 this.matchListArr.forEach(function(value,parentIndex){
                     value.forEach(function(data,index){
                         data.forEach(function(arr){
-                            if(arr.played_status=='1'){
-                                arr.disabled = true;
+                            if(arr.played_status=='0'){
+                                arr.disabled = false
                             }else{
-                                arr.disabled = false;
+                                arr.disabled = true;
                             }
                         });
                         if(parentIndex==0){

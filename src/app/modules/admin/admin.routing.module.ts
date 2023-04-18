@@ -45,6 +45,10 @@ const adminRoutes: Route[] = [
     path: 'matches',
     loadChildren: () => import('app/modules/admin/matches/matches.module').then(m => m.MatchesModule),
   },
+  {
+    path: 'readytoplay',
+    loadChildren: () => import('app/modules/admin/matches/readtoplay/readytoplay.module').then(m => m.ReadytoplayModule),
+  },
   {path: '', pathMatch : 'full', redirectTo: 'dashboard'},
 ];
 

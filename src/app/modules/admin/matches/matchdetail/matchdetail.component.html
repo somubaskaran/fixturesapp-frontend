@@ -237,7 +237,8 @@
                         class="example-list"
                         (cdkDropListDropped)="drop($event,j+1,matchDetails)" id="{{j}}"
                         >
-                        <button (click)="playMatch(matchDetails)" [ngClass]="(matchDetails.thisMatch=='normal' && matchDetails.length==2) || (matchDetails.thisMatch=='bye' && matchDetails.length==1) ? 'show' : 'hide' ">Open</button>
+                            <button (click)="playMatch(matchDetails)" [ngClass]="(matchDetails.thisMatch=='normal' && matchDetails.length==2 && matchDetails[0].played_status=='0') ? 'show' : 'hide' ">Go to Match</button>
+                            <button (click)="goToNextRound(matchDetails[0])" [ngClass]="(matchDetails.thisMatch=='bye' && matchDetails.length==1 && matchDetails[0].played_status=='0') ? 'show' : 'hide' ">Go to next round</button>
                             <div *ngFor="let item of matchDetails" cdkDrag [cdkDragData]="item" [cdkDragDisabled]="item.disabled">{{item.player_name}}</div>
                         </div>
                 </div>

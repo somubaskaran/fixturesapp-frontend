@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { MatchlistComponent } from './matchlist/matchlist.component';
 import { MatchdetailComponent } from './matchdetail/matchdetail.component';
-import { PlayMatchesComponent } from './play-matches/play-matches.component';
+
 const routes: Routes = [
   {
     path: 'list',
@@ -16,8 +16,8 @@ const routes: Routes = [
     path: 'detail',
     loadChildren: () => import('app/modules/admin/matches/matchdetail/matchdetail.module').then(m => m.MatchdetailModule)
   },{
-    path: 'play-match',
-    component: PlayMatchesComponent
+    path: 'ready-to-play',
+    loadChildren: () => import('app/modules/admin/matches/readtoplay/readytoplay.module').then(m => m.ReadytoplayModule)
   },
 ];
 

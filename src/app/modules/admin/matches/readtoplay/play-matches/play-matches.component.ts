@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router, NavigationEnd } from '@angular/router';
 import { EncryptDecryptService } from 'app/core/encrypt-decrypt.service';
-import { MatchService } from '../../match.service';
-import { PointsService } from '../../points.service';
+//import { MatchService } from '../../match.service';
+import { Readytoplay } from '../../../readytoplay.service';
+import { PointsService } from '../../../points.service';
 import { map, filter, scan } from 'rxjs/operators';
 
 @Component({
@@ -20,25 +21,53 @@ export class PlayMatchesComponent implements OnInit {
   Status_team_A = false;
   Status_team_B = false;
   tour_id : any;
+  readyToPlayId : any;
   constructor(
     private route: ActivatedRoute,
     private encrypt: EncryptDecryptService,
-    private matchservice: MatchService,
+    private readytoplay: Readytoplay,
     private pointservice: PointsService,
     private router: Router
   ) { }
 
   ngOnInit(): void {
     this.route.queryParams.subscribe((params) => {
-       this.team_one = params['team_one'];
-       this.team_two = params['team_two'];
-        this.getMatchDetails(this.team_one,'1');
-        this.getMatchDetails(this.team_two,'2');
-        this.getPoints(this.team_one,'1');
-        this.getPoints(this.team_two,'2');
+      this.readyToPlayId = params['id'];
+
+      this.getmatchInfo(this.readyToPlayId);
+      //  this.team_one = params['team_one'];
+      //  this.team_two = params['team_two'];
+      //   this.getMatchDetails(this.team_one,'1');
+      //   this.getMatchDetails(this.team_two,'2');
     });
   }
-
+  getmatchInfo(readyToPlayId) {
+    var sendData = {
+      readyToPlayId : readyToPlayId,
+    }
+    const encryptedRequest = this.encrypt.encryptData(
+        JSON.stringify(sendData)
+    );
+    this.readytoplay.getmatchInfo(encryptedRequest).subscribe(
+        (data: any) => {
+          // if(id==='1'){
+          //   this.match_id_A = data.data[0];
+          //   this.tour_id = data.data[0].tour_id;
+          // }else if(id==='2') {
+          //   this.match_id_B = data.data[0];
+          //   this.tour_id = data.data[0].tour_id;
+          // }
+          this.team_one = data.data[0].match_id;
+          this.match_id_A = data.data[0];
+          this.team_two = data.data[1].match_id;
+          this.match_id_B = data.data[1];
+          this.getPoints(this.team_one,'1');
+        this.getPoints(this.team_two,'2');
+    },
+    (error: any) => {
+        
+    });
+  }
   getMatchDetails(matchId,id){
     var sendData = {
       matchId : matchId,
@@ -46,7 +75,7 @@ export class PlayMatchesComponent implements OnInit {
     const encryptedRequest = this.encrypt.encryptData(
         JSON.stringify(sendData)
     );
-    this.matchservice.matchDetails(encryptedRequest).subscribe(
+    this.readytoplay.matchDetails(encryptedRequest).subscribe(
         (data: any) => {
           if(id==='1'){
             this.match_id_A = data.data[0];
@@ -64,6 +93,7 @@ export class PlayMatchesComponent implements OnInit {
     var sendData = {
       matchId : matchId,
     }
+    
     const encryptedRequest = this.encrypt.encryptData(
         JSON.stringify(sendData)
     );
@@ -128,27 +158,40 @@ export class PlayMatchesComponent implements OnInit {
     }
   }
   finishMatch(){
-    if(this.Status_team_A===true||this.Status_team_B===true){
-      if(this.Status_team_A===true){
+    if(this.team_score_A != this.team_score_B){
+      // if(this.Status_team_A===true){
+      //   var sendData = {
+      //     winnerId:this.team_one,
+      //     looserId:this.team_two
+      //   }
+      // }else if(this.Status_team_B===true){
+      //   var sendData = {
+      //     winnerId:this.team_two,
+      //     looserId:this.team_one
+      //   }
+      // }
+      if(this.team_score_A>this.team_score_B){
         var sendData = {
-          winnerId:this.team_one,
-          looserId:this.team_two
-        }
-      }else if(this.Status_team_B===true){
+              winnerId:this.team_one,
+              looserId:this.team_two,
+              readyToPlayId:this.readyToPlayId
+            }
+      }else{
         var sendData = {
-          winnerId:this.team_two,
-          looserId:this.team_one
-        }
+              winnerId:this.team_two,
+              looserId:this.team_one,
+              readyToPlayId:this.readyToPlayId
+            }
       }
-      
       const encryptedRequest = this.encrypt.encryptData(
           JSON.stringify(sendData)
       );
-      this.matchservice.finishMatch(encryptedRequest).subscribe(
+      this.readytoplay.finishMatch(encryptedRequest).subscribe(
           (data: any) => {
-            this.router.navigate(['admin/matches/detail'], {
-              queryParams: { tournmentId: this.tour_id },
-          });
+          //   this.router.navigate(['admin/matches/detail'], {
+          //     queryParams: { tournmentId: this.tour_id },
+          // });
+          this.router.navigate(['admin/readytoplay']);
       },
       (error: any) => {
           
@@ -157,8 +200,6 @@ export class PlayMatchesComponent implements OnInit {
     }
   }
   backtoTour() {
-    this.router.navigate(['admin/matches/detail'], {
-        queryParams: { tournmentId: this.tour_id },
-    });
+    this.router.navigate(['admin/readytoplay']);
   }
 }

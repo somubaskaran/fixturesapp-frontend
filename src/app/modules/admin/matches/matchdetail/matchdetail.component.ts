@@ -30,6 +30,7 @@ import { DatePipe } from '@angular/common';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { MatchService } from '../../match.service';
 import {CdkDragDrop, moveItemInArray, transferArrayItem} from '@angular/cdk/drag-drop';
+import { retry } from 'rxjs/operators';
 @Component({
     selector: 'app-matchdetail',
     templateUrl: './matchdetail.component.html',
@@ -112,18 +113,6 @@ export class MatchdetailComponent implements OnInit {
         }else if(fromBox>totalMatch && toBox<=totalMatch){
             console.log("Bye to Match");
             this.updateByeToMatch(event.item.data,value);
-        }
-        return false;
-        if(this.mactchesCountList[0]<=value){
-            //this.updateByeMatch(event.item.data,value);
-            console.log('aaaaaa');
-            console.log(value);
-            return false;
-        }else{
-            console.log('bbbbbbb');
-            console.log(value);
-            return false;
-            //this.changeMatch(event.item.data,value);
         }
       }
 
@@ -252,6 +241,7 @@ export class MatchdetailComponent implements OnInit {
                 //         tempArr.push( Array(value).fill(0).map((x,i)=>i));
                 //     }
                 //  })
+                var temp = this.mactchesCountList[0];
                 this.matchListArr.forEach(function(value,parentIndex){
                     value.forEach(function(data,index){
                         data.forEach(function(arr){
@@ -262,7 +252,8 @@ export class MatchdetailComponent implements OnInit {
                             }
                         });
                         if(parentIndex==0){
-                            if(index<5){
+                            //console.log(this.tourDetailsResponse.mactchesCountList);
+                            if(index<temp){
                                 data.thisMatch = 'normal';
                             }else{
                                 data.thisMatch = 'bye';
@@ -377,6 +368,7 @@ export class MatchdetailComponent implements OnInit {
     readyToPlayMatch(matchesList){
         var sendData = {
             matchesList : matchesList[0],
+            courtNumber : '1',
         }
         const encryptedRequest = this.encrypt.encryptData(
             JSON.stringify(sendData)
@@ -384,7 +376,7 @@ export class MatchdetailComponent implements OnInit {
         this.matchservice.readyToPlayMatch(encryptedRequest).subscribe(
             (data: any) => {
                 this.elements.closeAll();
-            //this.getTournmentDetail(this.tournmentId);
+            this.getTournmentDetail(this.tournmentId);
         },
         (error: any) => {
             

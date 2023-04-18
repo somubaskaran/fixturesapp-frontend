@@ -152,36 +152,7 @@ export class MatchService {
           return of(decryptData);
         }));
     }
-    matchDetails(request){
-      const accessToken = "";
-        let api_url = '';
-        api_url = environment.API_BASE_URL + '' + environment.API_ADMIN_URL + 'match/matchDetails';
-        return this._httpClient.post<any>(api_url, request, {
-          headers: {
-            'content-type': 'application/json',
-            'authorization': 'Bearer ' + accessToken
-          },
-        }).pipe(switchMap((data: any) => {
-          const decryptData = this.encrypt.decryptData(data.data);
-          console.log(decryptData);
-          return of(decryptData);
-        }));
-    }
-    finishMatch(request){
-      const accessToken = "";
-      let api_url = '';
-      api_url = environment.API_BASE_URL + '' + environment.API_ADMIN_URL + 'match/finishmatch';
-      return this._httpClient.post<any>(api_url, request, {
-      headers: {
-          'content-type': 'application/json',
-          'authorization': 'Bearer ' + accessToken
-      },
-      }).pipe(switchMap((data: any) => {
-      const decryptData = this.encrypt.decryptData(data.data);
-      console.log(decryptData);
-      return of(decryptData);
-      }));
-  }
+        
   getUpdatedMatchNumber(request) {
     const accessToken = "";
     let api_url = '';

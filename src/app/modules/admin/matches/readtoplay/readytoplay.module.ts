@@ -1,7 +1,8 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { MatchesRoutingModule } from './matches-routing.module';
-import { MatchlistComponent } from './matchlist/matchlist.component';
+import { ReadyToPlayRoutingModule } from './readytoplay.routing.module';
+import { ReadtoplayComponent } from './readytoplay/readtoplay.component';
+import { PlayMatchesComponent } from './play-matches/play-matches.component';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
@@ -18,11 +19,12 @@ import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 
 @NgModule({
   declarations: [
-    MatchlistComponent,
+    ReadtoplayComponent,
+    PlayMatchesComponent
   ],
   imports: [
     CommonModule,
-    MatchesRoutingModule,
+    ReadyToPlayRoutingModule,
     MatButtonModule,
     MatInputModule,
     SharedModule,
@@ -38,4 +40,4 @@ import {MatSlideToggleModule} from '@angular/material/slide-toggle';
     MatSlideToggleModule
   ],
 })
-export class MatchesModule { }
+export class ReadytoplayModule { }

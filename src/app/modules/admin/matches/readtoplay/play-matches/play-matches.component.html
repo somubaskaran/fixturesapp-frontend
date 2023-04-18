@@ -14,7 +14,7 @@
             <button class="addition" (click)="addPoint(match_id_A)">+</button>
         </div>
         <div>
-            <mat-slide-toggle (change)="onStatusOne($event)" [(ngModel)]="Status_team_A">Status</mat-slide-toggle>
+            <mat-slide-toggle (change)="onStatusOne($event)" >Status</mat-slide-toggle>
         </div>
     </div>
     <div class="play-match-split">
@@ -29,7 +29,7 @@
             <button class="addition" (click)="addPoint(match_id_B)">+</button>
         </div>
         <div>
-            <mat-slide-toggle (change)="onStatusTwo($event)" [(ngModel)]="Status_team_B">Status</mat-slide-toggle>
+            <mat-slide-toggle (change)="onStatusTwo($event)">Status</mat-slide-toggle>
         </div>
     </div>
     <div>

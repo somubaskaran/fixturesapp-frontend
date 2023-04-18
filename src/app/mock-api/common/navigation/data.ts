@@ -23,6 +23,13 @@ export const defaultNavigation: FuseNavigationItem[] = [
         icon: 'assets/icons/patient-menu.svg',
         link: '/admin/matches',
     },
+    {
+        id: 'Admin',
+        title: 'Ready To Play',
+        type: 'basic',
+        icon: 'assets/icons/org-menu.svg',
+        link: '/admin/readytoplay',
+    },
     // {
     //     id: 'Doctor',
     //     title: 'Patient List',

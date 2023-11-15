@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { MatchlistComponent } from './matchlist/matchlist.component';
 import { MatchdetailComponent } from './matchdetail/matchdetail.component';
+import { TourcategoryComponent } from './tourcategory/tourcategory.component';
 
 const routes: Routes = [
   {
@@ -18,6 +19,9 @@ const routes: Routes = [
   },{
     path: 'ready-to-play',
     loadChildren: () => import('app/modules/admin/matches/readtoplay/readytoplay.module').then(m => m.ReadytoplayModule)
+  },{
+    path: 'tour-category',
+    component: TourcategoryComponent
   },
 ];
 

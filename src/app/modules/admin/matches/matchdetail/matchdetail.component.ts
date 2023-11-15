@@ -8,7 +8,6 @@ import {
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { EncryptDecryptService } from 'app/core/encrypt-decrypt.service';
-import { DoctorService } from 'app/modules/doctor.service';
 import { successResponseData } from 'app/core/response-schema';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';

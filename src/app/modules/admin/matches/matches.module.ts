@@ -15,10 +15,12 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import {MatCardModule} from '@angular/material/card';
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
+import { TourcategoryComponent } from './tourcategory/tourcategory.component';
 
 @NgModule({
   declarations: [
     MatchlistComponent,
+    TourcategoryComponent,
   ],
   imports: [
     CommonModule,

@@ -41,7 +41,6 @@ import { FuseScrollbarDirective } from '@fuse/directives/scrollbar/scrollbar.dir
 import { FuseUtilsService } from '@fuse/services/utils/utils.service';
 import { BooleanInput, coerceBooleanProperty } from '@angular/cdk/coercion';
 import { EncryptDecryptService } from 'app/core/encrypt-decrypt.service';
-import { DoctorService } from 'app/modules/doctor.service';
 
 @Component({
     selector: 'fuse-vertical-navigation',
@@ -122,7 +121,6 @@ export class FuseVerticalNavigationComponent
         private _scrollStrategyOptions: ScrollStrategyOptions,
         private _fuseNavigationService: FuseNavigationService,
         private _fuseUtilsService: FuseUtilsService,
-        private service: DoctorService
     ) {
         this._handleAsideOverlayClick = (): void => {
             this.closeAside();
@@ -376,24 +374,24 @@ export class FuseVerticalNavigationComponent
         const encryptedRequest = this.encrypt.encryptData(
             JSON.stringify(sendData)
         );
-        this.service.getCheckList(encryptedRequest).subscribe((data: any) => {
-            if (data.list.length > 0) {
-                console.log(data.list[0].check_list);
-                this.defautcheckedList = JSON.parse(data.list[0].check_list);
-                console.log(this.defautcheckedList);
-                this._changeDetectorRef.markForCheck();
-            }
+        // this.service.getCheckList(encryptedRequest).subscribe((data: any) => {
+        //     if (data.list.length > 0) {
+        //         console.log(data.list[0].check_list);
+        //         this.defautcheckedList = JSON.parse(data.list[0].check_list);
+        //         console.log(this.defautcheckedList);
+        //         this._changeDetectorRef.markForCheck();
+        //     }
 
-            /*if(data.list.length>0){
-              var getList = data.list[0].check_list;
-              const obj = JSON.parse(getList);
-              for (let i = 0; i < obj.length; i++) {
-                this.doctorcheckedList[i].value = obj[i].value;
-              }
-            }else{
-              this.doctorcheckedList = this.defautcheckedList;
-            }*/
-        });
+        //     if(data.list.length>0){
+        //       var getList = data.list[0].check_list;
+        //       const obj = JSON.parse(getList);
+        //       for (let i = 0; i < obj.length; i++) {
+        //         this.doctorcheckedList[i].value = obj[i].value;
+        //       }
+        //     }else{
+        //       this.doctorcheckedList = this.defautcheckedList;
+        //     }
+        // });
     }
     /**
      * After view init

@@ -22,7 +22,6 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatButtonModule } from '@angular/material/button';
 import { MatStepperModule } from '@angular/material/stepper';
 import { PopupWindowComponent } from './modules/common/popup-window/popup-window.component';
-import { PatientaddComponent } from './modules/doctor/patient/patientadd/patientadd.component';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { SharedModule } from './shared/shared.module';

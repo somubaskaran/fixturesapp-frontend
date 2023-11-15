@@ -62,6 +62,21 @@ export class MatchService {
           return of(decryptData);
         }));
     }
+    getTournmentCategoryList(request){
+      const accessToken = "";
+        let api_url = '';
+        api_url = environment.API_BASE_URL + '' + environment.API_ADMIN_URL + 'match/getTournmentCategoryList';
+        return this._httpClient.post<any>(api_url, request, {
+          headers: {
+            'content-type': 'application/json',
+            'authorization': 'Bearer ' + accessToken
+          },
+        }).pipe(switchMap((data: any) => {
+          const decryptData = this.encrypt.decryptData(data.data);
+          console.log(decryptData);
+          return of(decryptData);
+        }));
+    }
     getTournmentDetail(request){
         const accessToken = "";
         let api_url = '';
